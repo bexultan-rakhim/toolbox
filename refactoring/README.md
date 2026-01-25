@@ -33,5 +33,5 @@ I do not like reinveinting wheel. Whenever I can, I just reference some of these
 
 > [!WARNING]
 > The worst possible book to read on this topic, by far, is [Clean Code](http://cleancoder.com/products). 
-> Reason: Many advices in the book are ill-formed or outdated. The book as clearly good intention and provides some of the most unwise decisions. You can read these books with fair bit of skepticism.
-> My personal remark is that dogmatic followers of this book tend to be the worst type of "Prima Donna" developers ever that dogmatically follow "the book".  
+> Reason: Many advices in the book are ill-formed or outdated. The book has clearly good intention and provides some of the most unwise decisions to achieve those goals. You can read these books with fair bit of skepticism.
+> My personal remark is that dogmatic followers of this book tend to be the worst type of "Prima Donna" developers ever.  
