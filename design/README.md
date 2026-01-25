@@ -1,7 +1,7 @@
 # Software Design 
 ## What
-This folder contains some of my favorite design patterns and software designing techniques. 
-
+Please, read this document to the end if you want to learn what software design is.
+This folder contains some of my favorite design patterns and architecture styles, as well as software designing techniques. (Work in Progress). 
 ## Why
 Software design is the most engineering and artistic part of the software development. This is part of software development that is not as strict as "Computer Science", in a sense that there are no objective solution. Before diving in to software design, we should define some of the important terms that are used in the language of software desing, and why this process tends to be subjective.
 
