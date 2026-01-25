@@ -25,7 +25,7 @@ You can find all of the code examples in each language folder.
 I do not like reinveinting wheel. Whenever I can, I just reference some of these resources.
 
 **Online Resources**
-* [Refactoring Guru]*(https://refactoring.guru/) - webpage that categorizes refactoring based on code smells.
+* [Refactoring Guru](https://refactoring.guru/) - webpage that categorizes refactoring based on code smells.
 * [ArjanCodes](https://www.youtube.com/arjancodes) - YoutTube channel that demonstrates step-by-step python code refactoring. Good resource for learning.
 
 **Books**
