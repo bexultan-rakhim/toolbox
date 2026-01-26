@@ -35,6 +35,8 @@ graph TD
     style Evaluation fill:#f1f8e9,stroke:#33691e,stroke-width:2px
     style Iteration fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,stroke-dasharray: 5 5
 ```
+Formulating a design problem is divided into Emphasize and Definition stages and outcome is somewhat well scoped objective. Solution stage is often divided into ideation and prototyping, and outcome of tis stage is **prototype**. Evaluation is divided into Testing and Revision and outcomes are better understanding of the problem.
+
 Point is, your starting list of requirements do not really matter that much. You can start with arbitrary list and converge to somewhat right list of requirements and somewhat right form. However, better your starting point is, fewer steps it takes to converge.
 
 The best book that recognizes this process comes from [Christopher Alexander's](https://en.wikipedia.org/wiki/Christopher_Alexander) [Notes on the Syntesis of Form](https://en.wikipedia.org/wiki/Notes_on_the_Synthesis_of_Form).
