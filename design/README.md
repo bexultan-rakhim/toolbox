@@ -80,5 +80,5 @@ Let's be pragmatic. You do not need to reinvent the wheel and start from a white
 
 **Books**
 * GoF, [Design Patterns](https://en.wikipedia.org/wiki/Design_Patterns) - Timeless classic
-* M. Fowler, [Patterns of Enterprise Application Architecture] - This book is for people who are gradually evolving form design problem solvers to architecture world. 
+* M. Fowler, [Patterns of Enterprise Application Architecture](https://www.amazon.co.jp/-/en/Martin-Fowler/dp/0321127420) - This book is for people who are gradually evolving form design problem solvers to architecture world. 
 * D. Nesteruk [Design Patterns in Modern C++](https://www.amazon.com/Design-Patterns-Modern-Approaches-Object-Oriented/dp/1484236025) - this book is a hidden gem. First of all, it is a C++ book. Second, it is Design pattern book in a compiled language. Many of the applications such as ROS or Drake heavily utilize some of the patterns in this book. 
