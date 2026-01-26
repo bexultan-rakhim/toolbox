@@ -77,6 +77,7 @@ Let's be pragmatic. You do not need to reinvent the wheel and start from a white
 **Online Resources**
 * [Python Design Patterns](https://python-patterns.guide/) - this is a must read if you want to become a good python developers
 * [The Architecture of Open Source Applications](https://aosabook.org/en/) - Sometimes, you have to just learn how open source projects solved some of their biggest design problems. This is a single best resource on successful applications and design decisions used there. Spend some time learning them. Especially under 500 lines, it is a good start for beginners.
+
 **Books**
 * GoF, [Design Patterns](https://en.wikipedia.org/wiki/Design_Patterns) - Timeless classic
 * M. Fowler, [Patterns of Enterprise Application Architecture] - This book is for people who are gradually evolving form design problem solvers to architecture world. 
