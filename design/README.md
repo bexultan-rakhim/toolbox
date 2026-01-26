@@ -1,6 +1,8 @@
 # Software Design 
 ## What
-Please, read this document to the end if you want to learn what software design is. This folder contains some of my favorite design patterns, architecture styles, and software design techniques. (Work in Progress).
+This folder contains some of my favorite design patterns, architecture styles, and software design techniques. (Work in Progress).
+
+This readme contains my understanding of a design problem, architecture and some other related concepts.
 ## Why
 Software design is the most engineering and artistic part of software development. This is part of software development that is not as strict as "Computer Science", in the sense that there is no objective solution. Before diving into software design, we should define some of the important terms used in the language of software design and why this process tends to be subjective.
 
