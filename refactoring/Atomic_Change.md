@@ -13,14 +13,14 @@ If we can do this, then we can get to point, where regular refactoring technique
 
 > [!WARNING]
 > But before going there, I want to give you word of wisdom. Before trying to spend resources untangling a mess, ask yourself: "Is this worth the effort?".
-> Remember, point of refactoring is not to achieve some aesthetics. It is about being protducitve.
+> Remember, point of refactoring is not to achieve some aesthetics. It is about being productive.
 > The best way to deal with bad code is not waste time on it. If it is a throwaway code in a long run, consider [putting it into quarantine](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer).
 
 ## How
 Let's start to define some of the simpler examples. We will first discuss example with refactoring simple boolean operations.
 
 ### 1. Simplifying Boolean Logic
-You must need to memorize these laws by heart. They will help you to simplify complex logic. The most important in this list is De Morgan's laws (8th law), as it can help you simplify really complex expressions.
+You must memorize these laws by heart. They will help you to simplify complex logic. The most important in this list is De Morgan's laws (8th law), as it can help you simplify really complex expressions.
 
 ```python
 # Assume 'a', 'b', and 'c' are boolean variables
