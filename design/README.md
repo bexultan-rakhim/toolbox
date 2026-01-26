@@ -11,7 +11,7 @@ If you ask what the optimal algorithm is for searching for an element in a sorte
 
 Second issue, even if you come up with a shortlist of relevant requirements, finding a solution can pose a problem as well, as you may not immediately recognize that some objectives you put forward may be in direct contradiction to each other. We call such problems **ill-defined**. Many design problems are, in fact, ill-defined. And you may end up discovering this only when you start solving the problem.
 
-We figured out how to find solutions to such problems effectively. I would not have written so much text if we did not have. But, this comes with accepting that there is no termination condition for design problems - they are, by nature, **open ended** problems. 
+We figured out how to find solutions to such problems effectively. But, this comes with accepting that there is no termination condition for design problems - they are, by nature, **open ended** problems. 
 
 **Design Process** - an effective way of solving design problems. Unfortunately, design problems turn them are by nature intractable problems, but aside from some forms of intractable problems, you can make progress in solving the problem by gradually converging on both the solution and the problem statement. The design process has a **design iteration**:
 
