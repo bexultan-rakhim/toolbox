@@ -1,6 +1,6 @@
 # Atomic Changes
 ## What
-This document introduces a refactoring concept called **atomic change**. Simply put, atomic change is a changes to code that changes the sourcefile and code structure, but **does not change the behavior**. 
+This document introduces a refactoring concept called **atomic change**. Simply put, atomic change is a changes to code that changes the source file and code structure, but **does not change the behavior**. 
 ## Why
 If you start reading any book on refactoring, it will suggest that you should be writing tests to protect correct behavior, so that you can easily modify your code without worrying of breaking anything. Indeed, you should be writing tests. 
 
@@ -65,7 +65,7 @@ absorb_2 = (a and (a or b)) == a
 ```
 Easy right? Let's go further.
 
-### 2.Simplifying Complex if-statements:
+### 2. Simplifying Complex if-statements:
 1. Return Early pattern:
 ```python
 # Ugly nested if conditions
