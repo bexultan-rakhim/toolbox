@@ -1,8 +1,7 @@
 #!/bin/bash
-
 PROJECT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 VENV_PATH="$PROJECT_DIR/.venv"
-PYTHON_SCRIPT="$PROJECT_DIR/tldrgen.py"
+PYTHON_SCRIPT="$PROJECT_DIR/gencmd.py"
 
 if [ ! -d "$VENV_PATH" ]; then
     echo "Error: Virtual environment not found at $VENV_PATH"
