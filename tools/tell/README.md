@@ -1,11 +1,13 @@
 # tell
 
-AI-powered CLI tool that generates concise summaries from local man pages using LangChain and Ollama.
+AI-powered CLI tool that generates concise summaries from local cli tools using LangChain and Ollama.
 
 ## Requirements
 This tools ollama to run llm model locally. It uses llama3.2, which does not use much resources.
 * **Ollama**: Install and pull the model (linux):
+
 `curl -fsSL https://ollama.com/install.sh | sh`
+
 `ollama pull llama3.2`
 * **uv**: Fast Python package manager: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
