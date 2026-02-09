@@ -1,6 +1,6 @@
 # Code Refactoring
 ## What
-This folder contains some code refactoring materials, that I found really useful over the years. It is sorted by language and contains readme files with materials on specific topics.
+This folder contains some code refactoring materials, that I found really useful over the years. It is sorted by topic and contains readme files with materials on specific topics.
 
 ## Why
 Over the years, I have found that on specific languages you face the same type of problems and they have same type of treatment. Oftentimes, they are pretty specific, that you can apply easily. I wanted to have a single repository of such methods that I can share as examples instead of explaining it 100th time.
@@ -20,7 +20,7 @@ All the other reasons such as aesthetics, abstraction, coupling etc. are not obj
 There is a concept of **Code Smells** in refactoring. In short, this is a way of training your eye and categorize (anti-) patterns of coding. Bad code smells may be indicators of bad code, but not reason. Sometimes, bad code smells are not a problem at all! That said, when I see bad code smells, I find myself struggling to debug or to understand the code. 
 
 ## How
-You can find all the code examples in each language folder.
+You can find all the in each readme file.
 
 ### Refactoring Resources
 I do not like reinventing wheel. Whenever I can, I just reference some of these resources.
