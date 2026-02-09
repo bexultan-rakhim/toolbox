@@ -1,0 +1,23 @@
+2026-02-09 15:51:50,029 [PID 25327] DEBUG Using selector: KqueueSelector
+2026-02-09 15:51:50,030 [PID 25327] INFO Reading Pyre server configurations...
+2026-02-09 15:51:50,033 [PID 25327] ERROR Uncaught error in persistent.run
+Traceback (most recent call last):
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/commands/persistent.py", line 299, in run
+    return asyncio.get_event_loop().run_until_complete(
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/commands/persistent.py", line 224, in run_persistent
+    initial_server_options = pyre_server_options.read_server_options(
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/commands/pyre_server_options.py", line 129, in read_server_options
+    return server_options_reader()
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/commands/pyre_server_options.py", line 114, in read
+    return PyreServerOptions.create(
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/commands/pyre_server_options.py", line 93, in create
+    start_arguments = start.create_server_arguments(
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/commands/start.py", line 311, in create_server_arguments
+    source_paths = backend_arguments.get_source_path_for_server(
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/backend_arguments.py", line 418, in get_source_path_for_server
+    return get_source_path(
+  File "/Users/bexultanrakhim/.local/share/nvim/mason/packages/pyre/venv/lib/python3.9/site-packages/pyre_check/client/backend_arguments.py", line 397, in get_source_path
+    raise configuration_module.InvalidConfiguration(
+pyre_check.client.configuration.exceptions.InvalidConfiguration: Invalid configuration: Cannot find any source files to analyze. Either `source_directories` or `targets` must be specified.
