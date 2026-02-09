@@ -1,0 +1,10 @@
+[project]
+name = "tell"
+version = "0.1.0"
+description = "CLI tool to help with cli tool usage"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain>=1.2.8",
+    "langchain-ollama>=1.0.1",
+]
