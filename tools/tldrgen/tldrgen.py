@@ -6,8 +6,8 @@ from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
-# unly use first 6000 characters in man page
-MAN_PAGE_CONTEXT_LENGTH = 6000
+# unly use first 1000 characters in man page
+MAN_PAGE_CONTEXT_LENGTH = 1000
 # limit output to be short
 PREDICTION_LENGTH = 250
 CACHE_DIR = Path.home() / ".cache" / "tldrgen"

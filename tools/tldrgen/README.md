@@ -16,6 +16,7 @@ uv sync
 ```bash
 alias tldr="/path/to/this/folder/tldrgen.sh"
 alias gencmd="/path/to/this/folder/gencmd.sh"
+alias explaincmd="/path/to/this/folder/explaincmd.sh"
 ```
 
 ## Usage
@@ -34,9 +35,14 @@ How on earth are you going to remember this? I got you. You can run this:
 ```bash
 gencmd "find all .log files larger than 100MB and delete them instantly?"
 ``` 
+You have some cryptic command line one liner that you have hard time to understand? You can do this to get explanation:j
+```bash
+explaincmd "sudo rm -rf /"
+``` 
 
 ## Features
 * **Local Execution:** Runs entirely on your machine via Ollama.
 * **Caching:** Stores summaries in `~/.cache/tldrgen/` for instant retrieval.
 * **Context-Aware:** Uses the actual system man page as the source of truth.
-* **Find one liners:** You can instantly generate a oneliner for your linux terminal using `gencmd`
+* **Find one liners:** You can instantly generate a one liner for your Linux terminal using `gencmd`
+* **Explain one liners:** You can instantly get explanation for one liner `explaincmd`
