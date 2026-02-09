@@ -24,6 +24,14 @@ class Colors:
     END = '\033[0m'
 
 
+def make_llm():
+    return ChatOllama(
+        model="llama3.2",
+        temperature=0,
+        num_predict=PREDICTION_LENGTH
+    ) 
+
+
 def get_man_page(tool_name: str) -> str | None:
     """Fetches the man page content using the 'man' command."""
     try:
@@ -69,12 +77,7 @@ def load_use_form_cache(tool_name: str) -> str | None:
 
 
 def generate_use(tool_name: str, man_page: str) -> str:
-    llm = ChatOllama(
-        model="llama3.2",
-        temperature=0,
-        num_predict=PREDICTION_LENGTH
-    )
-
+    llm = make_llm() 
     prompt = ChatPromptTemplate.from_messages([
         ("system", (
             "You are a minimalist technical writer. Create a TL;DR for a command-line tool.\n"
@@ -95,7 +98,7 @@ def generate_use(tool_name: str, man_page: str) -> str:
 
 def explain(args) -> str:
     request = " ".join(args.extra_args)
-    llm = ChatOllama(model="llama3.2", temperature=0)
+    llm =  make_llm()
 
     template = """You are a Linux command line expert.\n
     Provide only short text explanations, do not add markdown code blocks, or any extra text.\n
@@ -112,8 +115,7 @@ def explain(args) -> str:
 
 def generate(args) -> str:
     request = " ".join(args.extra_args)
-    llm = ChatOllama(model="llama3.2", temperature=0)
-
+    llm = make_llm() 
     template = """You are a Linux command line expert. 
     Provide only the raw command that solves the user's request. 
     Do not include explanations, markdown code blocks, or any extra text.
