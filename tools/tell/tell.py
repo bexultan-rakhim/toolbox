@@ -10,7 +10,7 @@ from langchain_core.output_parsers import StrOutputParser
 MAN_PAGE_CONTEXT_LENGTH = 1000
 # limit output to be short
 PREDICTION_LENGTH = 250
-CACHE_DIR = Path.home() / ".cache" / "tldrgen"
+CACHE_DIR = Path.home() / ".cache" / "tell"
 
 
 class Colors:
