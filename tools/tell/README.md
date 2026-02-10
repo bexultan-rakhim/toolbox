@@ -44,7 +44,7 @@ tell expl "sudo rm -rf /"
 
 ## Features
 * **Local Execution:** Runs entirely on your machine via Ollama.
-* **Caching:** Stores summaries in `~/.cache/tldrgen/` for instant retrieval.
+* **Caching:** Stores summaries in `~/.cache/tell/` for instant retrieval.
 * **Context-Aware:** Uses the actual system man page as the source of truth.
 * **Find one liners:** You can instantly generate a oneliner for your linux terminal using `tell gen`
 * **Explain one liners:** You can instantly get explanation for one liner `tell expl`
