@@ -99,7 +99,7 @@ mkdir -p ~/.config/home-manager && cd ~/.config/home-manager
   };
 }
 ```
-Save it and exit.
+Save it and exit. You can find templates in this folder of the repo.
 1. In the same folder run this command
 ```bash
 nix run github:nix-community/home-manager -- switch --flake . -b backup
