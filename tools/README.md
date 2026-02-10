@@ -8,4 +8,4 @@ As an engineer, it is nice to have some tools that are fine-tuned for you. These
 
 # How
 
-Each directory here contains a tool with a README explaining how to use it.
+Each directory here contains a tool with README explaining how to use it.
