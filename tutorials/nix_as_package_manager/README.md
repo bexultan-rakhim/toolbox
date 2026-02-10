@@ -110,7 +110,7 @@ This command will bootstrap home manager (you are essentially running command th
 3. Installs software in the list (like htop) (you can check `htop --version`, `which htop`, that should point to `.nix-profile/bin/htop`)
 4. Create new .bashrc file and copy the existing `.bashrc` to `.bashrc.backup` (you can check content of new `.bashrc`, now with bat `bat ~/.bashrc`)
 
-### 3. Troubleshooting
+### $\color{red}{\text{3. Troubleshooting}}$
 ### 1\. "Permission Denied" on /nix
 
 If you didn't use the Determinate Installer, or if a previous install failed, you might not have permissions for the /nix directory.
