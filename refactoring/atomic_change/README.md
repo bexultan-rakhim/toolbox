@@ -17,7 +17,7 @@ If we can do this, then we can get to point, where regular refactoring technique
 > The best way to deal with bad code is not waste time on it. If it is a throwaway code in a long run, consider [putting it into quarantine](https://learn.microsoft.com/en-us/azure/architecture/patterns/anti-corruption-layer).
 
 ## How
-In a nut shell, learning atomic changes boils down to recognize patterns and apply it. These are patterns on code that can be replaced with its equivalent without any change in behavior, so it is bidirectional changes.
+In a nutshell, learning atomic changes boils down to recognize patterns and apply it. These are patterns on code that can be replaced with its equivalent without any change in behavior, so it is bidirectional changes.
 
 Here are Atomic Changes by topic:
 1. [Booleans ](Booleans.md)
