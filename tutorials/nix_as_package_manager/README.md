@@ -215,7 +215,7 @@ It is not all sunshine and rainbows. Here are some things you have to learn.
 ## Caveats and Gotchas
 Before you start using nix as your package manager, I want to give some caveats and "gotchas" regarding Nix:
 
-1.  **Nix (the language) and Nix (the package manager)** are not the same as NixOS. You do not need to download NixOS to use Nix.
+1.  **Nix (the language) and Nix (the package manager)** are not the same as NixOS. You do not need to download NixOS to use Nix. But, this comes with some consequences - more specifically, you can not guarantee full isolation, and some builds are going to be polluted/dirty.
     
 2.  **System Constraints:** Because of the above, things like Docker, the Kernel, Drivers, and Networking (anything requiring sudo) cannot be handled by Nix on a foreign OS. NixOS was specifically designed to solve this at the OS level.
     
