@@ -29,13 +29,12 @@
           g++ main.cpp $(pkg-config --cflags --libs fmt) -o hello-cpp
         '';
         
-        # Test
+        # Test : try to append `exit 1` and build this project
         doCheck = true;
         checkPhase = ''
             echo "Running test..."
-            ./hello-cpp | grep "Hello"
-        
-        ''
+            ./hello-cpp | grep "Hello" 
+        '';
         
         # Install
         installPhase = ''
