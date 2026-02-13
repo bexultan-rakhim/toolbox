@@ -22,21 +22,10 @@ First, what is a build system? For a comprehensive answer, check out [this resou
 
 Let’s start with a simpler goal: building programs. Can we build programs with Nix?
 
-### 1. Raw Derivation
-Imagine we have a simple build requirement. We want to write Nix code that takes inputs and transforms them into outputs. Since we are interested in the build process rather than just running code, we need output files transformed from source code and dependencies:
-
-```text
-INPUTS                BUILD SYSTEM                OUTPUTS
-+-------------------+   +--------------------+   +------------------+
-| - Source Code     |   |                    |   | - Binaries (.exe)|
-| - Dependencies    | ----> |   Transformation   | ----> | - Data Files     |
-| - Build Tools     |   |      Process       |   | - Packages       |
-+-------------------+   +--------------------+   +------------------+
-```
-
+### 1. Nix Language 
 First, let's get familiar with the Nix language. You can think of Nix as a set of functions (as in functional programming) operating on attribute sets. A simple function in Nix looks like this:
 ```nix
-func = a: b: a + b # A function that adds two numbers
+func = a: b: a + b; # A function that adds two numbers
 ```
 Here is a simple attribute set. You can think of these as "immutable" dictionaries:
 ```nix
@@ -61,7 +50,19 @@ Note the use of `...` to specify that the function can accept other "hidden" arg
 }
 ```
 
-For our purposes, we must introduce one more built-in Nix concept. At the core of the Nix language is the built-in [derivation](https://nix.dev/manual/nix/2.22/language/derivations) function, which modifies attribute sets to generate derivations. A derivation attribute set requires specific fields. Here is a minimal set of required fields:
+### 2. Raw Derivation
+Imagine we have a simple build requirement. We want to write Nix code that takes inputs and transforms them into outputs. Since we are interested in the build process rather than just running code, we need output files transformed from source code and dependencies:
+
+```text
+INPUTS                BUILD SYSTEM                OUTPUTS
++-------------------+   +--------------------+   +------------------+
+| - Source Code     |   |                    |   | - Binaries (.exe)|
+| - Dependencies    | ----> |   Transformation   | ----> | - Data Files     |
+| - Build Tools     |   |      Process       |   | - Packages       |
++-------------------+   +--------------------+   +------------------+
+```
+
+For our purposes, we must introduce one more built-in Nix concept. At the core of the Nix language is the built-in [derivation](https://nix.dev/manual/nix/2.22/language/derivations) built-in keyword, which modifies attribute sets to generate derivations. A derivation attribute set requires specific fields. Here is a minimal set of required fields:
 
 ```nix
 derivation {
@@ -127,7 +128,7 @@ Conversely, if an argument changes, Nix won't pull an incompatible package; it w
 
 ---
 
-### 2. Up a Level: mkDerivation
+### 3. Up a Level: mkDerivation
 
 So far, so good. However, you may have noticed a "leaky" issue. We used `/bin/sh` to build our first program. This relies on the host system. Which version of `sh` or `bash` are we using? What if a new version changes something?
 
@@ -218,7 +219,7 @@ The `stdenv` (standard environment) provides tools like the GCC compiler and `co
 
 ---
 
-### 3. Up a Level: Flakes and External Dependencies
+### 5. Up a Level: Flakes and External Dependencies
 
 Even with `mkDerivation`, hermeticity remains a potential issue because it is often optional rather than enforced. It is still possible to create "leaky" builds. **Flakes** make it much harder to create leaky builds by:
 1.  **Lockfiles:** `flake.lock` pins the exact URLs and hashes for all inputs.
@@ -274,7 +275,7 @@ int main() {
 Here is a complete flake that handles both development and building:
 ```nix
 {
-  description = "A simple C++ Hello World flake";
+  description = "A multi-system C++ Hello World flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -282,40 +283,51 @@ Here is a complete flake that handles both development and building:
 
   outputs = { self, nixpkgs }:
     let
-      system = "aarch64-darwin"; 
-      pkgs = nixpkgs.legacyPackages.${system};
+      # Define the systems you want to support
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+
+      # Helper function to generate an attrset '{ x86_64-linux = f "x86_64-linux"; ... }'
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
+      # Standard nixpkgs instantiation for each system
+      pkgsFor = system: nixpkgs.legacyPackages.${system};
     in
     {
-      packages.${system}.default = pkgs.stdenv.mkDerivation {
-        pname = "hello-cpp";
-        version = "1.1";
-        src = ./.;
-        nativeBuildInputs = [ 
-          pkgs.gcc 
-          pkgs.pkg-config
-        ];
+      packages = forAllSystems (system: {
+        default = let pkgs = pkgsFor system; in pkgs.stdenv.mkDerivation {
+          pname = "hello-cpp";
+          version = "1.1";
+          src = ./.;
+          
+          nativeBuildInputs = [ 
+            pkgs.gcc 
+            pkgs.pkg-config
+          ];
 
-        buildInputs = [ pkgs.fmt ];
+          buildInputs = [ pkgs.fmt ];
 
-        buildPhase = ''
-          g++ main.cpp $(pkg-config --cflags --libs fmt) -o hello-cpp
-        '';
-        
-        doCheck = true;
-        checkPhase = ''
-            echo "Running tests..."
+          buildPhase = ''
+            g++ main.cpp $(pkg-config --cflags --libs fmt) -o hello-cpp
+          '';
+          
+          doCheck = true;
+          checkPhase = ''
+            echo "Running tests on ${system}..."
             ./hello-cpp | grep "Hello" 
-        '';
-        
-        installPhase = ''
-          mkdir -p $out/bin
-          cp hello-cpp $out/bin/
-        '';
-      };
+          '';
+          
+          installPhase = ''
+            mkdir -p $out/bin
+            cp hello-cpp $out/bin/
+          '';
+        };
+      });
 
-      devShells.${system}.default = pkgs.mkShell {
-        inputsFrom = [ self.packages.${system}.default ];
-      };
+      devShells = forAllSystems (system: {
+        default = let pkgs = pkgsFor system; in pkgs.mkShell {
+          inputsFrom = [ self.packages.${system}.default ];
+        };
+      });
     };
 }
 ```
@@ -335,5 +347,64 @@ You can even include tests (`checkPhase`) and depend on other private or public 
   outputs = { self, nixpkgs, my-private-project }: {
     # Access via my-private-project.packages.aarch64-darwin.default
   };
+}
+```
+
+## Bonus: Flake for Python
+How about interpreted language? Say you want to just expose this python file as executable in nix:
+```nix
+import sys
+import requests  # Let's add a dependency to make it interesting
+
+
+def main():
+    print(f"Hello from Python {sys.version}!")
+    print(f"Requests version: {requests.__version__}")
+
+
+if __name__ == "__main__":
+    main()
+```
+To execute it, you would normally do this: `python hello.py`. However, it won't work in a "binary form". We can add shebang `#!/usr/bin/env python` to mark it as python, then you can remove extension `.py`, mark it as executable. But notice that we refer to non-isolated `/usr/bin/env`. Solution to this problem then is two-fold:
+1. Create isolated nix-environment `/nix/store/<hash>-python-env`
+2. Inject it to this source file!
+
+You can imagine nix flake pseudo-code to have following skeleton:
+```nix
+let
+  buildStep = envBuilder {
+    #build isolated env
+  };
+in
+modifiedFile = buildStep readFile ./hello.py; 
+```
+
+There are already Nix functions to do exactly this. Here is a flake:
+```nix 
+{
+  description = "A hermetic Python hello world";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  };
+
+  outputs = { self, nixpkgs }:
+    let
+      system = "aarch64-darwin";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+    {
+      packages.${system}.default = pkgs.writers.writePython3Bin "hello-python"
+      {
+          libraries = [pkgs.python3Packages.requests];
+      } (builtins.readFile ./hello.py);
+
+
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [ 
+          (pkgs.python3.withPackages (ps: [ ps.requests ])) 
+        ];
+      };
+    };
 }
 ```
