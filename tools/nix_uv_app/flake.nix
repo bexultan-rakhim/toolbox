@@ -3,36 +3,44 @@
 
   outputs = { self }: {
     lib = {
-      buildUvApp = { pkgs, pname, version, src, entryPoint }: 
+      buildUvApp = { pkgs, pname, version, src, entryPoint, hash ? "" }: 
+        let
+          # This intermediate derivation fetches dependencies
+          deps = pkgs.stdenv.mkDerivation {
+            name = "${pname}-deps";
+            inherit src;
+            nativeBuildInputs = [ pkgs.uv pkgs.python3 ];
+            outputHashAlgo = "sha256";
+            outputHashMode = "recursive";
+            outputHash = hash; # You'll fill this in after the first failed build
+    
+            buildPhase = ''
+              export UV_CACHE_DIR=$TMPDIR/uv-cache
+              export UV_NO_MANAGED_PYTHON=1
+              export UV_PYTHON=${pkgs.python3}/bin/python3
+              uv sync --frozen --no-dev
+            '';
+    
+            installPhase = "cp -r .venv $out";
+          };
+        in
         pkgs.stdenv.mkDerivation {
           inherit pname version src;
-
-          nativeBuildInputs = [ pkgs.uv pkgs.python3 pkgs.makeWrapper ];
-
-          buildPhase = ''
-            export UV_CACHE_DIR=$TMPDIR/uv-cache
-            export UV_NO_MANAGED_PYTHON=true
-            export UV_SYSTEM_PYTHON=true
-            export UV_PYTHON=${pkgs.python3}/bin/python3
-            uv sync --frozen --no-dev
-          '';
-
-          installPhase = ''
-          mkdir -p $out/share/${pname} $out/bin
+          nativeBuildInputs = [ pkgs.makeWrapper ];
           
-          cp -r . $out/share/${pname}
-
-          cat <<EOF > $out/share/${pname}/run-wrapper.sh
+          installPhase = ''
+            mkdir -p $out/share/${pname} $out/bin
+            cp -r . $out/share/${pname}
+            # Link the pre-built venv from the FOD
+            ln -s ${deps} $out/share/${pname}/.venv
+    
+            cat <<EOF > $out/share/${pname}/run-wrapper.sh
 #!/usr/bin/env bash
-VENV_PATH="$out/share/${pname}/.venv"
-PYTHON_SCRIPT="$out/share/${pname}/${entryPoint}"
-exec "\$VENV_PATH/bin/python3" "\$PYTHON_SCRIPT" "\$@"
+exec "$out/share/${pname}/.venv/bin/python3" "$out/share/${pname}/${entryPoint}" "\$@"
 EOF
-
-          chmod +x $out/share/${pname}/run-wrapper.sh
-
-          makeWrapper $out/share/${pname}/run-wrapper.sh $out/bin/${pname} \
-            --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.python3 pkgs.bash ]}
+            chmod +x $out/share/${pname}/run-wrapper.sh
+            makeWrapper $out/share/${pname}/run-wrapper.sh $out/bin/${pname} \
+              --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.python3 pkgs.bash ]}
           '';
         };
     };
