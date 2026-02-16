@@ -11,7 +11,8 @@
 
           buildPhase = ''
             export UV_CACHE_DIR=$TMPDIR/uv-cache
-            # Ensure a clean sync without dev dependencies
+            export UV_NO_MANAGED_PYTHON=1
+            export UV_PYTHON=${pkgs.python3}/bin/python3
             uv sync --frozen --no-dev
           '';
 
