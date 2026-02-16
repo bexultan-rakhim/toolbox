@@ -1,0 +1,5 @@
+.venv
+.pyre
+result/
+tell.egg-info/
+__pycache__/
