@@ -37,7 +37,8 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "uv-app": "uv-app"
       }
     },
     "systems": {
@@ -52,6 +53,23 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "uv-app": {
+      "locked": {
+        "dir": "tools/nix_uv_app",
+        "lastModified": 1771232596,
+        "narHash": "sha256-kRQsNkYOnsQ67IYTk9kwdV5D5c/QW5QcPnvLPjGQVm4=",
+        "owner": "bexultan-rakhim",
+        "repo": "toolbox",
+        "rev": "93105552006c5048d3975486f85c25c8c1c1c236",
+        "type": "github"
+      },
+      "original": {
+        "dir": "tools/nix_uv_app",
+        "owner": "bexultan-rakhim",
+        "repo": "toolbox",
         "type": "github"
       }
     }

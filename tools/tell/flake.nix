@@ -3,30 +3,28 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    uv-app = {
+      url = "github:bexultan-rakhim/toolbox?dir=tools/nix_uv_app";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    }; 
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, uv-app, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs =  nixpkgs.legacyPackages.${system};
       in 
       {
-      packages.default = pkgs.stdenv.mkDerivation {
+      packages.default = uv-app.lib.buildUvApp {
+        inherit pkgs;
         pname = "tell";
         version = "0.1.0";
         src = ./.;
-        nativeBuildInputs = [pkgs.uv  pkgs.python3 pkgs.makeWrapper ];
-
-        buildPhase = ''
-          export UV_CACHE_DIR=$TMPDIR/uv-cache
-          uv sync --frozen --no-dev
-        '';
-        installPhase = ''
-           mkdir -p $out/share/tell
-           cp -r . $out/share/tell
-           makeWrapper  $out/share/tell/tell.sh $out/bin/tell
-        '';
-     };
+        entryPoint = "tell.py";
+      };
     });
 }
