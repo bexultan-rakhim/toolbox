@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Graphviz Toggle</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.js"></script>
+    <style>#graph { cursor: pointer; }</style>
+</head>
+<body>
+    <div id="graph" style="text-align: center;"></div>
+    <script>
+        const dotOff = `digraph G{
+  rankdir=TB;
+  node [shape=box, style=filled, fontname="Arial"];
+  graph[
+    label="banking_system"
+  ];
+  person [label="Personal Banking Customer" shape=box];
+  person -> internet_banking_system [label="Views account balances and makes payments using" arrowhead=open  style=dotted ];
+  internet_banking_system [label="Internet Banking System" shape=box];
+  internet_banking_system -> amazon_web_services [label="Sends e-mails to customers using" arrowhead=open  style=dotted ];
+  internet_banking_system -> core_banking_system [label="Gets bank account information and makes payments using" arrowhead=open  style=dotted ];
+  core_banking_system [label="Core Banking System" shape=box];
+  amazon_web_services [label="Amazon Web Services Simple Email Service" shape=box];
+  amazon_web_services -> person [label="Sends e-mails to" arrowhead=open  style=dotted ];
+}
+`;
+        const dotOn = `digraph G{
+  rankdir=TB;
+  node [shape=box, style=filled, fontname="Arial"];
+  graph[
+    label="banking_system"
+  ];
+  person [label="Personal Banking Customer" shape=box];
+  person -> static_content [label="Loads the UI from" arrowhead=open  style=dotted ];
+  person -> ui [label="Views account balances and makes payments using" arrowhead=open  style=dotted ];
+  subgraph cluster_internet_banking_system {
+    label="Internet Banking System";
+    style=dashed;
+    ui [label="UI" shape=box];
+    static_content [label="Static Content" shape=box];
+    backend [label="Backend" shape=box];
+    statement_store [label="Statement Store" shape=box];
+    database [label="Database" shape=box];
+  }
+  ui -> backend [label="Makes API request to" arrowhead=open  style=dotted ];
+  static_content -> ui [label="Delivers" arrowhead=open  style=dotted ];
+  backend -> core_banking_system [label="Makes API  requests to" arrowhead=open  style=dotted ];
+  backend -> amazon_web_services [label="Sends e-mails to customers using" arrowhead=open  style=dotted ];
+  backend -> statement_store [label="Reads from and writes to" arrowhead=open  style=dotted ];
+  backend -> database [label="Reads from and writes to" arrowhead=open  style=dotted ];
+  core_banking_system [label="Core Banking System" shape=box];
+  amazon_web_services [label="Amazon Web Services Simple Email Service" shape=box];
+  amazon_web_services -> person [label="Sends e-mails to" arrowhead=open  style=dotted ];
+}
+`;
+        let isEnabled = false;
+
+        const graphviz = d3.select("#graph").graphviz().fade(true);
+
+        function render() {
+            graphviz.renderDot(isEnabled ? dotOn : dotOff);
+        }
+
+        
+        d3.select("#graph").on("click", () => {
+            isEnabled = !isEnabled;
+            render();
+        });
+
+        render();
+    </script>
+</body>
+</html>
