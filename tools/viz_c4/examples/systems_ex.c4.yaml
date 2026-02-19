@@ -1,7 +1,7 @@
 # Source: System Context View by Simon Brown 
 # url:  https://c4model.com/diagrams/system-context / CC BY 4.0
 
-context: internet_banking_system
+context: banking_system
 
 systems:
   - id: person
