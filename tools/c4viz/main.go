@@ -34,7 +34,8 @@ func main() {
 
 	fmt.Printf("✅ Successfully validated: %s (Context: %s)\n", filename, root.Context)
 
-	grapviz, err := generateGraphviz(root)
+	g := GraphVizVisitor{contaier_level: false, graphStr: ""}
+	grapviz, err := g.generateGraphviz(root)
 	if err != nil {
 		log.Fatalf("Failed to generate Graphviz:\n%v", err)
 	}

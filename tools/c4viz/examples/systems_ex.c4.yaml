@@ -9,11 +9,15 @@ systems:
     kind: actor
     external: true
     links:
-      - target: internal_banking_system
+      - target: internet_banking_system
+        description: Views account balances and makes payments using
+      - target: static_content
+        description: Loads the UI from
+      - target: ui
         description: Views account balances and makes payments using
 
-  - id: internal_banking_system
-    name: Internal Banking System
+  - id: internet_banking_system
+    name: Internet Banking System
     kind: system
     description: Allows customer to view information about their bank accounts and make payments via the web
     links:
@@ -21,6 +25,53 @@ systems:
         description: Sends e-mails to customers using
       - target: core_banking_system
         description: Gets bank account information and makes payments using
+    containers:
+      - id: ui
+        name: UI
+        description: Single-page app that provides Internet banking functionality to customers via thier web browser 
+        kind: service
+        technology: [JavaScript, Angular]
+        links:
+          - target: backend
+            description: Makes API request to 
+            technology: [JSON, HTTP]
+      - id: static_content
+        name: Static Content
+        kind: service
+        technology: [HTML, CSS, JavaScript, etc. ]
+        links:
+          - target: ui
+            description: Delivers
+
+      - id: backend
+        name: Backend
+        kind: service
+        description: Provides Internet Banking functionality via a JSON/HTTP API.
+        technology: [Java, Spring Boot]
+        links:
+          - target: core_banking_system
+            description: Makes API  requests to 
+            technology: [XML, HTTPS]
+          - target: amazon_web_services
+            description: Sends e-mails to customers using
+            technology: [AWS SES API, HTTP]
+          - target: statement_store
+            description: Reads from and writes to
+            technology: [AWS S3 API, HTTP]
+          - target: database
+            description: Reads from and writes to
+            technology:  MySQL protocol
+      - id: statement_store
+        name: Statement Store
+        kind: storage
+        description: Bank Account Statments rendered as PDF files.
+        technology: AWS S3
+
+      - id: database
+        kind: storage
+        name: Database
+        description: User account information, access logs, etc.
+        technology: [MySQL, DBSchema] 
 
   - id: core_banking_system
     name: Core Banking System
