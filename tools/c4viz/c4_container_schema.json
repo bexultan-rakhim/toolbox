@@ -79,7 +79,7 @@
     },
     "link": {
       "type": "object",
-      "required": ["target", "kind"],
+      "required": ["target"],
       "properties": {
         "target": { "type": "string" },
         "status": {"enum": ["active", "planned", "deprecated"]},
@@ -90,10 +90,10 @@
         "via": { "type": "string" }
       },
       "if": {
-        "properties": { "kind": { "const": "async" } }
+        "properties": { "kind": { "const": "sync" } }
       },
       "then": {
-        "required": ["via"]
+        "not": {"required": ["via"] }
       },
       "additionalProperties": false
     },

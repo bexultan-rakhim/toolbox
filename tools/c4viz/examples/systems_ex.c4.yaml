@@ -1,0 +1,36 @@
+# Source: System Context View by Simon Brown 
+# url:  https://c4model.com/diagrams/system-context / CC BY 4.0
+
+context: internet_banking_system
+
+systems:
+  - id: person
+    name: Personal Banking Customer
+    kind: actor
+    external: true
+    links:
+      - target: internal_banking_system
+        description: Views account balances and makes payments using
+
+  - id: internal_banking_system
+    name: Internal Banking System
+    kind: system
+    description: Allows customer to view information about their bank accounts and make payments via the web
+    links:
+      - target: amazon_web_services
+        description: Sends e-mails to customers using
+      - target: core_banking_system
+        description: Gets bank account information and makes payments using
+
+  - id: core_banking_system
+    name: Core Banking System
+    description: Handles core banking functions including ifnromation, bank account management, transactions, etc.
+    external: true
+
+  - id: amazon_web_services
+    name: Amazon Web Services Simple Email Service
+    description: Cloud-based email service provider
+    external: true
+    links:
+      - target: person
+        description: Sends e-mails to
