@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Insight Architecture Schema",
+  "title": "Bex's C4 Architecture Container Schema",
   "type": "object",
   "required": ["context"],
   "properties": {
@@ -42,6 +42,7 @@
       "properties": {
         "id": { "type": "string" },
         "status": {"enum": ["active", "planned", "deprecated"]},
+        "kind": { "enum": ["actor", "system"]},
         "name": { "type": "string" },
         "attributes": {"$ref": "#/definitions/attributes"},
         "description": { "type": "string" },
@@ -63,7 +64,7 @@
       "required": ["id", "kind", "name"],
       "properties": {
         "id": { "type": "string" },
-        "kind": { "enum": ["service", "storage", "actor"] },
+        "kind": { "enum": ["service", "storage", "queue", "actor"] },
         "status": {"enum": ["active", "planned", "deprecated"]},
         "attributes": {"$ref": "#/definitions/attributes"},
         "name": { "type": "string" },
