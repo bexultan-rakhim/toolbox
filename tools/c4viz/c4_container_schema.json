@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Insight Architecture Schema",
+  "type": "object",
+  "required": ["context"],
+  "properties": {
+    "context": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "imports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "from"],
+        "properties": {
+          "name": { "type": "string" },
+          "from": { "type": "string" },
+          "as": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "system": { "$ref": "#/definitions/system"},
+    "systems": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/system" }
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    { 
+      "required": ["system"],
+      "not": { "required": ["systems"] } 
+    },
+    { 
+      "required": ["systems"],
+      "not": { "required": ["system"] } 
+    }
+  ],
+  "definitions": {
+    "system": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string" },
+        "status": {"enum": ["active", "planned", "deprecated"]},
+        "name": { "type": "string" },
+        "attributes": {"$ref": "#/definitions/attributes"},
+        "description": { "type": "string" },
+        "external": { "type": "boolean" },
+        "technology": { "$ref": "#/definitions/technology"},
+        "containers": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/container" }
+        },
+        "links": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/link" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "container": {
+      "type": "object",
+      "required": ["id", "kind", "name"],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "enum": ["service", "storage", "actor"] },
+        "status": {"enum": ["active", "planned", "deprecated"]},
+        "attributes": {"$ref": "#/definitions/attributes"},
+        "name": { "type": "string" },
+        "technology": { "$ref": "#/definitions/technology"},
+        "description": { "type": "string" },
+        "links": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/link" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "link": {
+      "type": "object",
+      "required": ["target", "kind"],
+      "properties": {
+        "target": { "type": "string" },
+        "status": {"enum": ["active", "planned", "deprecated"]},
+        "kind": { "enum": ["sync", "async"] },
+        "attribute": {"$ref": "#/definitions/attributes"},
+        "technology": { "$ref": "#/definitions/technology"},
+        "description": {"type": "string"},
+        "via": { "type": "string" }
+      },
+      "if": {
+        "properties": { "kind": { "const": "async" } }
+      },
+      "then": {
+        "required": ["via"]
+      },
+      "additionalProperties": false
+    },
+    "technology": {
+       "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] 
+    },
+    "attributes": {
+      "type": "object",
+      "descition": "Custom rendering attributes (i.e. widith, height, color, style)",
+      "additionalProperties": {
+        "oneOf": [
+          {"type": "string"},
+          {"type": "number"},
+          {"type": "boolean"}
+        ]
+      }
+    }
+  }
+}
