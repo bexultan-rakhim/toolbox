@@ -16,50 +16,59 @@
   rankdir=TB;
   node [shape=box, style=filled, fontname="Arial"];
   graph[
-    label="banking_system"
+    label="google_maps"
   ];
-  person [label="Personal Banking Customer" shape=box];
-  person -> internet_banking_system [label="Views account balances and makes payments using" arrowhead=open  style=dotted ];
-  internet_banking_system [label="Internet Banking System" shape=box];
-  internet_banking_system -> amazon_web_services [label="Sends e-mails to customers using" arrowhead=open  style=dotted ];
-  internet_banking_system -> core_banking_system [label="Gets bank account information and makes payments using" arrowhead=open  style=dotted ];
-  core_banking_system [label="Core Banking System" shape=box];
-  amazon_web_services [label="Amazon Web Services Simple Email Service" shape=box];
-  amazon_web_services -> person [label="Sends e-mails to" arrowhead=open  style=dotted ];
+  user [label="Google Maps User" shape=box];
+  user -> google_maps_system [label="Searches for places, navigation" arrowhead=open ];
+  google_maps_system [label="Google Maps System" shape=box];
+  google_maps_system -> gps_services [label="Fetches GPS Data" arrowhead=open ];
+  google_maps_system -> traffic_data_providers [label="Retrieves Traffic Updates" arrowhead=open ];
+  google_maps_system -> weather_api [label="Fetches Weather Data" arrowhead=open ];
+  gps_services [label="GPS Services" shape=box];
+  traffic_data_providers [label="Traffic Data Providers" shape=box];
+  weather_api [label="Weather API" shape=box];
 }
 `;
         const dotOn = `digraph G{
   rankdir=TB;
   node [shape=box, style=filled, fontname="Arial"];
   graph[
-    label="banking_system"
+    label="google_maps"
   ];
-  person [label="Personal Banking Customer" shape=box];
-  person -> static_content [label="Loads the UI from" arrowhead=open  style=dotted ];
-  person -> ui [label="Views account balances and makes payments using" arrowhead=open  style=dotted ];
-  subgraph cluster_internet_banking_system {
-    label="Internet Banking System";
+  user [label="Google Maps User" shape=box];
+  user -> frontend [label="Interacts via UI" arrowhead=open ];
+  subgraph cluster_google_maps_system {
+    label="Google Maps System";
     style=dashed;
-    ui [label="UI" shape=box];
-    static_content [label="Static Content" shape=box];
-    backend [label="Backend" shape=box];
-    statement_store [label="Statement Store" shape=box];
+    frontend [label="Frontend (Web & Mobile)" shape=box];
+    api_gateway [label="API Gateway" shape=box];
+    map_rendering [label="Map Rendering Service" shape=box];
+    routing [label="Routing Service" shape=box];
+    traffic [label="Traffic Analysis Services" shape=box];
     database [label="Database" shape=box];
+    cache [label="In-Memory Cache" shape=box];
   }
-  ui -> backend [label="Makes API request to" arrowhead=open  style=dotted ];
-  static_content -> ui [label="Delivers" arrowhead=open  style=dotted ];
-  backend -> core_banking_system [label="Makes API  requests to" arrowhead=open  style=dotted ];
-  backend -> amazon_web_services [label="Sends e-mails to customers using" arrowhead=open  style=dotted ];
-  backend -> statement_store [label="Reads from and writes to" arrowhead=open  style=dotted ];
-  backend -> database [label="Reads from and writes to" arrowhead=open  style=dotted ];
-  core_banking_system [label="Core Banking System" shape=box];
-  amazon_web_services [label="Amazon Web Services Simple Email Service" shape=box];
-  amazon_web_services -> person [label="Sends e-mails to" arrowhead=open  style=dotted ];
+  frontend -> api_gateway [label="Sends Requests" arrowhead=open ];
+  api_gateway -> map_rendering [label="Feteches map tiles" arrowhead=open ];
+  api_gateway -> routing [label="Calculates routes" arrowhead=open ];
+  api_gateway -> traffic [label="Fetches traffic data" arrowhead=open ];
+  map_rendering -> gps_services [label="gets location" arrowhead=open  style=dotted ];
+  routing -> database [label="Reads/Writes" arrowhead=open ];
+  traffic -> cache [label="Uses" arrowhead=open ];
+  traffic -> traffic_data_providers [label="Uses" arrowhead=open  style=dotted ];
+  gps_services [label="GPS Services" shape=box];
+  traffic_data_providers [label="Traffic Data Providers" shape=box];
+  weather_api [label="Weather API" shape=box];
 }
 `;
         let isEnabled = false;
 
-        const graphviz = d3.select("#graph").graphviz().fade(true);
+        const graphviz = d3.select("#graph")
+			.graphviz()
+			.fit(true)
+			.width(window.innerWidth)
+			.height(window.innerHeight)
+			.zoom(true);
 
         function render() {
             graphviz.renderDot(isEnabled ? dotOn : dotOff);

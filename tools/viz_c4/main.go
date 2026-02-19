@@ -52,7 +52,12 @@ func main() {
         const dotOn = {{.DotOn}};
         let isEnabled = false;
 
-        const graphviz = d3.select("#graph").graphviz().fade(true);
+        const graphviz = d3.select("#graph")
+			.graphviz()
+			.fit(true)
+			.width(window.innerWidth)
+			.height(window.innerHeight)
+			.zoom(true);
 
         function render() {
             graphviz.renderDot(isEnabled ? dotOn : dotOff);

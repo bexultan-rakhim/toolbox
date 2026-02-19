@@ -1,0 +1,88 @@
+
+context: google_maps
+
+systems:
+  - id: user
+    name: Google Maps User
+    kind: actor
+    external: true
+    links:
+      - target: google_maps_system
+        kind: sync
+        description: Searches for places, navigation
+      - target: frontend
+        kind: sync
+        description: Interacts via UI
+
+  - id: google_maps_system
+    name: Google Maps System
+    links:
+      - target: gps_services
+        description: Fetches GPS Data
+        kind: sync
+      - target: traffic_data_providers
+        kind: sync
+        description: Retrieves Traffic Updates
+      - target: weather_api
+        kind: sync
+        description: Fetches Weather Data
+    containers:
+      - id: frontend
+        kind: service
+        name: Frontend (Web & Mobile)
+        links:
+          - target: api_gateway
+            description: Sends Requests
+            kind: sync
+      - id: api_gateway
+        name: API Gateway
+        kind: service
+        links:
+          - target: map_rendering
+            description: Feteches map tiles
+            kind: sync
+          - target: routing
+            description: Calculates routes
+            kind: sync
+          - target: traffic
+            description: Fetches traffic data
+            kind: sync
+      - id: map_rendering
+        name: Map Rendering Service
+        kind: service
+        links:
+          - target: gps_services
+            description: gets location 
+      - id: routing
+        name: Routing Service
+        kind: service
+        links:
+          - target: database
+            description: Reads/Writes
+            kind: sync
+      - id: traffic
+        name: Traffic Analysis Services
+        kind: service
+        links:
+          - target: cache
+            description: Uses
+            kind: sync
+          - target: traffic_data_providers
+            description: Uses
+      - id: database
+        name: Database
+        kind: storage
+      - id: cache
+        name: In-Memory Cache
+        kind: storage
+  - id: gps_services
+    name: GPS Services
+    external: true
+
+  - id: traffic_data_providers
+    name: Traffic Data Providers
+    external: true
+
+  - id: weather_api
+    name: Weather API
+    external: true
