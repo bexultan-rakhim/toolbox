@@ -166,9 +166,12 @@ func (v *GraphVizVisitor) visitRoot(r *Root) {
 func (g *GraphVizVisitor) generateGraphviz(r Root) (string, error) {
 	g.graphStr += "digraph G{\n"
 	g.graphStr += "  rankdir=TB;\n"
-	g.graphStr += `  node [shape=box, style=filled, fontname="Arial"];` +"\n"
+	g.graphStr += "layout=fdp;\n"
+	g.graphStr += "overlap=false;\n"
+	g.graphStr += "splines=true;\n"
+	g.graphStr += `sep="+25";` +"\n"
+	g.graphStr += `  node [shape=rect, style=filled, fontname="Arial"];` +"\n"
 	g.graphStr += `  edge [labelforce=true];` + "\n"
-
 
 	r.accept(g)
 
