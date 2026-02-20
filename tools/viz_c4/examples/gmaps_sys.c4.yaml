@@ -24,6 +24,7 @@ systems:
         kind: sync
         description: Retrieves Traffic Updates
       - target: weather_api
+        status: planned
         kind: sync
         description: Fetches Weather Data
     containers:
@@ -81,8 +82,10 @@ systems:
 
   - id: traffic_data_providers
     name: Traffic Data Providers
+    status: deprecated
     external: true
 
   - id: weather_api
+    status: planned
     name: Weather API
     external: true

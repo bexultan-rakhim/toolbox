@@ -8,21 +8,65 @@ type GraphVizVisitor struct {
 }
 
 func (v *GraphVizVisitor) visitLink(l *Link) {
-	v.graphStr += l.Target + " [" + "label=" + `"` + l.Description + `"`
+	v.graphStr += l.Target + " [" + "label=" + `"` + l.Description
+	if l.Kind == LKindAsync && l.Via != "" {
+	  v.graphStr += "\\n via: [" + l.Via + "]"
+	}
+	v.graphStr += `"`
 	v.graphStr += " arrowhead=open "
 	if l.Kind != LKindSync {
 	  v.graphStr += " style=dotted "
+	}
+	switch l.Status {
+	case StatusPlanned:
+	  v.graphStr +=" color=green"
+	case StatusDeprecated:
+	  v.graphStr +=" color=red"
+	default:
+	  // ignore
 	}
 	v.graphStr += "];\n" 
 }
 
 func (v *GraphVizVisitor) visitContainer(c *Container) {
-	v.graphStr += "  " + c.ID + " [" + "label=" + `"` + c.Name + `"` + " shape=box];\n" 
+	v.graphStr += "  " + c.ID + " [" + "label=" + `"` + c.Name + `"` 
+	switch c.Kind {
+	case CKindStorage:
+		v.graphStr += " shape=cylinder"
+	case CKindActor:
+		v.graphStr += " shape=oval"
+	default:
+		v.graphStr += " shape=box"
+	}
+	switch c.Status {
+	case StatusPlanned:
+	  v.graphStr +=" color=green"
+	case StatusDeprecated:
+	  v.graphStr +=" color=red"
+	default:
+	  // ignore
+	}
+	v.graphStr += " ];\n"
 }
 
 func (v *GraphVizVisitor) visitSystemContLevel(s *System) {
 	if s.External {
-		v.graphStr += "  " + s.ID + " [" + "label=" + `"` + s.Name + `"` + " shape=box];\n" 
+		v.graphStr += "  " + s.ID + " [" + "label=" + `"` + s.Name + `"` 
+		switch s.Kind {
+		case SKindActor:
+			v.graphStr += " width=0.5 shape=oval"
+		default:
+			v.graphStr += " shape=box"
+		}
+		switch s.Status {
+		case StatusPlanned:
+		  v.graphStr +=" color=green"
+		case StatusDeprecated:
+		  v.graphStr +=" color=red"
+		default:
+		  // ignore
+		}
+		v.graphStr += " ];\n"
 		for _, l := range s.Links {
 			if v.knownContainers[l.Target] || v.knownSystems[l.Target] {
 				v.graphStr += "  " + s.ID + " -> "
@@ -50,7 +94,22 @@ func (v *GraphVizVisitor) visitSystemContLevel(s *System) {
 }
 
 func (v *GraphVizVisitor) visitSystemSysLevel(s *System) {
-  v.graphStr += "  " + s.ID + " [" + "label=" + `"` + s.Name + `"` + " shape=box];\n" 
+  v.graphStr += "  " + s.ID + " [" + "label=" + `"` + s.Name + `"` 
+	switch s.Kind {
+	case SKindActor:
+		v.graphStr += " width=0.5 shape=oval"
+	default:
+		v.graphStr += " shape=box"
+	}
+	switch s.Status {
+	case StatusPlanned:
+	  v.graphStr +=" color=green"
+	case StatusDeprecated:
+	  v.graphStr +=" color=red"
+	default:
+	  // ignore
+	}
+	v.graphStr += " ];\n"
   for _, l := range s.Links {
 	if !v.knownSystems[l.Target] { return }
 	v.graphStr += "  " + s.ID + " -> "
