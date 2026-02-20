@@ -47,7 +47,7 @@ func main() {
     <div id="graph" style="text-align: center;"></div>
     <script>
         const dotOff = {{.DotSys}};
-        const dotOn = {{.DotCont};
+        const dotOn = {{.DotCont}};
         let isEnabled = false;
 
         const graphviz = d3.select("#graph")
