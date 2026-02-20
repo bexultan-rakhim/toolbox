@@ -15,7 +15,7 @@ func (v *GraphVizVisitor) visitLink(l *Link) {
 	v.graphStr += `"`
 	v.graphStr += " arrowhead=open "
 	if l.Kind != LKindSync {
-	  v.graphStr += " style=dotted "
+	  v.graphStr += " style=dashed "
 	}
 	switch l.Status {
 	case StatusPlanned:
@@ -166,7 +166,9 @@ func (v *GraphVizVisitor) visitRoot(r *Root) {
 func (g *GraphVizVisitor) generateGraphviz(r Root) (string, error) {
 	g.graphStr += "digraph G{\n"
 	g.graphStr += "  rankdir=TB;\n"
-	g.graphStr += `  node [shape=box, style=filled, fontname="Arial"];` +"\n";
+	g.graphStr += `  node [shape=box, style=filled, fontname="Arial"];` +"\n"
+	g.graphStr += `  edge [labelforce=true];` + "\n"
+
 
 	r.accept(g)
 
