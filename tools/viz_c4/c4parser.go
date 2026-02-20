@@ -115,7 +115,7 @@ type Link struct {
 	Attribute   Attributes `yaml:"attribute,omitempty"`
 	Technology  Technology `yaml:"technology,omitempty"`
 	Description string     `yaml:"description,omitempty"`
-	Via         string     `yaml:"via,omitempty"` // Required if Kind is async
+	Via         string     `yaml:"via,omitempty"` // not required if Kind is sync
 }
 
 type Container struct {

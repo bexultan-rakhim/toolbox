@@ -126,7 +126,7 @@ func (v *GraphVizVisitor) visitSystem(s *System) {
 }
 
 func (v *GraphVizVisitor) visitImport(i *Import) {
-	// TODO: add external imports
+	// TODO: add external imports maybe...
 	// ignore...
 }
 

@@ -26,13 +26,11 @@ func main() {
 		log.Fatalf("YAML Parsing Error: %v", err)
 	}
 
-	// 1. Generate "Disabled" (No cluster_ prefix)
 	gDisabled := GraphVizVisitor{contaier_level: false}
-	dotDisabled, _ := gDisabled.generateGraphviz(root)
+	dotSys, _ := gDisabled.generateGraphviz(root)
 
-	// 2. Generate "Enabled" (With cluster_ prefix)
 	gEnabled := GraphVizVisitor{contaier_level: true}
-	dotEnabled, _ := gEnabled.generateGraphviz(root)
+	dotContainer, _ := gEnabled.generateGraphviz(root)
 
 	const htmlTemplate = `
 <!DOCTYPE html>
@@ -48,8 +46,8 @@ func main() {
 <body>
     <div id="graph" style="text-align: center;"></div>
     <script>
-        const dotOff = {{.DotOff}};
-        const dotOn = {{.DotOn}};
+        const dotOff = {{.DotSys}};
+        const dotOn = {{.DotCont};
         let isEnabled = false;
 
         const graphviz = d3.select("#graph")
@@ -75,13 +73,13 @@ func main() {
 </html>`
 
 	page := map[string]interface{}{
-		"DotOff": template.JS("`" + dotDisabled + "`"),
-		"DotOn":  template.JS("`" + dotEnabled + "`"),
+		"DotSys": template.JS("`" + dotSys + "`"),
+		"DotCont":  template.JS("`" + dotContainer + "`"),
 	}
 
 	f, _ := os.Create("index.html")
 	defer f.Close()
 	tmpl := template.Must(template.New("viz").Parse(htmlTemplate))
 	tmpl.Execute(f, page)
-	fmt.Println("✅ Generated index.html. Click the diagram to toggle containers.")
+	fmt.Println(" Generated index.html. Click the diagram to toggle containers.")
 }
