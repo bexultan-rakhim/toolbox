@@ -29,7 +29,6 @@ systems:
         description: Fetches Weather Data
     containers:
       - id: frontend
-        kind: service
         name: Frontend (Web & Mobile)
         links:
           - target: api_gateway
@@ -37,7 +36,6 @@ systems:
             kind: sync
       - id: api_gateway
         name: API Gateway
-        kind: service
         links:
           - target: map_rendering
             description: Feteches map tiles
@@ -50,20 +48,17 @@ systems:
             kind: sync
       - id: map_rendering
         name: Map Rendering Service
-        kind: service
         links:
           - target: gps_services
             description: gets location 
       - id: routing
         name: Routing Service
-        kind: service
         links:
           - target: database
             description: Reads/Writes
             kind: sync
       - id: traffic
         name: Traffic Analysis Services
-        kind: service
         links:
           - target: cache
             description: Uses
@@ -72,7 +67,6 @@ systems:
             description: Uses
       - id: database
         name: Database
-        kind: storage
       - id: cache
         name: In-Memory Cache
         kind: storage

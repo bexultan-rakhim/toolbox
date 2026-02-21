@@ -61,7 +61,7 @@
     },
     "container": {
       "type": "object",
-      "required": ["id", "kind", "name"],
+      "required": ["id", "name"],
       "properties": {
         "id": { "type": "string" },
         "kind": { "enum": ["service", "storage", "queue", "actor"] },
