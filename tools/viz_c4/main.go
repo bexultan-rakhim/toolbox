@@ -37,7 +37,7 @@ func main() {
 	gEnabled := GraphVizVisitor{contaier_level: true}
 	dotContainer, _ := gEnabled.generateGraphviz(root)
 
-	page := map[string]interface{}{
+	page := map[string]any {
 		"DotSys": template.JS("`" + dotSys + "`"),
 		"DotCont":  template.JS("`" + dotContainer + "`"),
 	}
