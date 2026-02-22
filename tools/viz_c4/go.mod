@@ -1,4 +1,4 @@
-module viz_c4
+module vizc4
 
 go 1.25.5
 

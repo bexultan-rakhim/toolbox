@@ -77,9 +77,9 @@ func main() {
 		"DotCont":  template.JS("`" + dotContainer + "`"),
 	}
 
-	f, _ := os.Create("index.html")
+	f, _ := os.Create("index2.html")
 	defer f.Close()
 	tmpl := template.Must(template.New("viz").Parse(htmlTemplate))
 	tmpl.Execute(f, page)
-	fmt.Println(" Generated index.html. Click the diagram to toggle containers.")
+	fmt.Println(" Generated index2.html. Click the diagram to toggle containers.")
 }

@@ -18,7 +18,6 @@ systems:
 
   - id: internet_banking_system
     name: Internet Banking System
-    kind: system
     description: Allows customer to view information about their bank accounts and make payments via the web
     links:
       - target: amazon_web_services
@@ -29,7 +28,6 @@ systems:
       - id: ui
         name: UI
         description: Single-page app that provides Internet banking functionality to customers via thier web browser 
-        kind: service
         technology: [JavaScript, Angular]
         links:
           - target: backend
@@ -37,7 +35,6 @@ systems:
             technology: [JSON, HTTP]
       - id: static_content
         name: Static Content
-        kind: service
         technology: [HTML, CSS, JavaScript, etc. ]
         links:
           - target: ui
@@ -45,7 +42,6 @@ systems:
 
       - id: backend
         name: Backend
-        kind: service
         description: Provides Internet Banking functionality via a JSON/HTTP API.
         technology: [Java, Spring Boot]
         links:
@@ -63,12 +59,10 @@ systems:
             technology:  MySQL protocol
       - id: statement_store
         name: Statement Store
-        kind: storage
         description: Bank Account Statments rendered as PDF files.
         technology: AWS S3
 
       - id: database
-        kind: storage
         name: Database
         description: User account information, access logs, etc.
         technology: [MySQL, DBSchema] 
