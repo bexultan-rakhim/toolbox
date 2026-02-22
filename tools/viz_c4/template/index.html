@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>C4 Model</title>
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+    <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
+    <style>
+        #cy {width: 100%; height: 1000px; border: 1px solid #ddd; background: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <div id="cy"></div>
+    <script>
+        var cy = cytoscape({
+            container: document.getElementById('cy'),
+            elements:  {
+                nodes: [
+                    {data: {id: 'n1', label: 'BoxA', shape: 'rectangle' } },
+                    {data: {id: 'n2', label: 'BoxB', shape: 'rectangle' , parent: 'c1'} },
+                    {data: {id: 'n3', label: 'Oval Node', shape: 'ellipse' } },
+                    {data: {id: 'n4', label: 'Cylinder', type: 'cylinder', parent: 'c1' }},
+                    {data: {id: 'c1', label: 'Dashed Container' } }
+                ],
+                edges: [
+                    {data: {id: 'e1', label: 'solid', source: 'n1', target: 'n3', type: 'solid'}},
+                    {data: {id: 'e2', label: 'e2', source: 'n2', target: 'n4', type: 'dashed'}}
+                ]
+            },
+            style: [
+                {
+                    selector: 'node',
+                    style: {
+                        'label': 'data(label)',
+                        'shape': 'data(shape)',
+                        'background-color':  '#0074D9',
+                        'color':  '#fff',
+                        'text-valign': 'center',
+                        'width': 80,
+                        'height': 50
+                    }
+                },
+                {
+                    selector: 'node[type="cylinder"]',
+                    style: {
+                        'background-fit': 'contain',
+                        'shape': 'rectangle',
+                        'background-color': '#ff5500',
+                        'background-image': 'data:image/png;base64,https://pngimg.com/d/database_PNG3.png',
+                        'background-opacity': 0,
+                        'color': '#333', // Darker text for better visibility outside the node
+                        'border-color': '#000',
+                        'width': 50,    // Narrower
+                        'height': 80,   // Taller
+                    }
+                },
+                {
+                    selector: ':parent',
+                    style: {
+                        'background-opacity': 0.1,
+                        'border-style': 'dashed',
+                        'border-width': 2,
+                        'border-color': '#AAAAAA',
+                        'label': 'data(label)',
+                        'text-valign': 'top'
+                    }
+                },
+                {
+                    selector: 'edge',
+                    style: {
+                        'width': 2,
+                        'label': 'data(label)',
+                        'target-arrow-shape': 'triangle',
+                        'curve-style': 'bezier',
+                        'line-color': '#555',
+                        'text-valign': 'center',
+                        'target-arrow-color': '#333',
+                    }
+                },
+                {
+                    selector: 'edge[type="dashed"]',
+                    style: {'line-style': 'dashed'}
+                },
+            ],
+            layout: {
+                name: 'fcose',
+                animate: true,
+                padding: 30
+            }
+        });
+    </script>
+</body>
+</html>
