@@ -1,5 +1,5 @@
 {
-  description = "A Nix-flake-based Go development environment and builder";
+  description = "VizC4 - cli tool to create static page for c4 models";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # unstable Nixpkgs
 
@@ -39,8 +39,7 @@
             pname = "vizc4";
             version = "0.1.0"; # Update this as your project evolves
             src = ./.;
-            vendorHash = "sha256-g+yaVIx4jxpAQ/+WrGKxhVeliYx7nLQe/zsGpxV4Fn4=
-";
+            vendorHash = "sha256-g+yaVIx4jxpAQ/+WrGKxhVeliYx7nLQe/zsGpxV4Fn4=";
           };
         }
       );
