@@ -1,5 +1,5 @@
 {
-  description = "A Nix-flake-based Go development environment";
+  description = "A Nix-flake-based Go development environment and builder";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # unstable Nixpkgs
 
@@ -31,6 +31,19 @@
       overlays.default = final: prev: {
         go = final."go_1_${toString goVersion}";
       };
+
+      packages = forEachSupportedSystem (
+        { pkgs }:
+        {
+          default = pkgs.buildGoModule {
+            pname = "vizc4";
+            version = "0.1.0"; # Update this as your project evolves
+            src = ./.;
+            vendorHash = "sha256-g+yaVIx4jxpAQ/+WrGKxhVeliYx7nLQe/zsGpxV4Fn4=
+";
+          };
+        }
+      );
 
       devShells = forEachSupportedSystem (
         { pkgs }:
