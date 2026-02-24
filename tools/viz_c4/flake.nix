@@ -40,6 +40,9 @@
             version = "0.1.0"; # Update this as your project evolves
             src = ./.;
             vendorHash = "sha256-g+yaVIx4jxpAQ/+WrGKxhVeliYx7nLQe/zsGpxV4Fn4=";
+            postInstall = ''
+            cp -r template $out/bin/template
+            '';
           };
         }
       );
