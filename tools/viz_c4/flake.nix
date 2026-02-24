@@ -37,7 +37,7 @@
         {
           default = pkgs.buildGoModule {
             pname = "vizc4";
-            version = "0.1.0"; # Update this as your project evolves
+            version = "0.1.0"; 
             src = ./.;
             vendorHash = "sha256-g+yaVIx4jxpAQ/+WrGKxhVeliYx7nLQe/zsGpxV4Fn4=";
             postInstall = ''
