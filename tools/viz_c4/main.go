@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"os"
+	"path/filepath"
 	"gopkg.in/yaml.v3"
 )
 
@@ -19,7 +20,14 @@ func main() {
 		log.Fatalf("Error reading file: %v", err)
 	}
 
-	b, err := os.ReadFile("./template/index2.html")
+	exePath, err := os.Executable()
+	if err != nil {
+		log.Fatalf("Error - can not determine executable path")
+	}
+
+	exeDir := filepath.Dir(exePath)
+	templatePath := filepath.Join(exeDir, "template", "index2.html")
+	b, err := os.ReadFile(templatePath)
 	if err != nil {
 		log.Fatalf("Error reading template file: %v", err)
 	}
