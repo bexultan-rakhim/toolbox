@@ -19,7 +19,7 @@ func main() {
 		log.Fatalf("Error reading file: %v", err)
 	}
 
-	b, err := os.ReadFile("template/index2.html")
+	b, err := os.ReadFile("./template/index2.html")
 	if err != nil {
 		log.Fatalf("Error reading template file: %v", err)
 	}
