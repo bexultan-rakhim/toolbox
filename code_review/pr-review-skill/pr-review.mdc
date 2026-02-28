@@ -1,0 +1,61 @@
+---
+name: PR Review Checklist
+description: AI-augmented PR review checklist for AI-generated code. Activate when asked to review a PR, diff, or code changes.
+globs:
+  - "**/*.cpp"
+  - "**/*.cc"
+  - "**/*.hpp"
+  - "**/*.h"
+  - "**/*.cpp"
+  - "**/*.ts"
+  - "**/*.js"
+  - "**/*.py"
+  - "**/*.go"
+---
+
+# PR Review Checklist
+
+When asked to review a PR or diff, run through these checks and report findings with severity:
+- 🔴 **Block** — do not merge, must be fixed
+- 🟡 **Request Changes** — address before approval or explicitly defer
+- 🟢 **Suggestion** — nice to have, not required
+
+## Automated Checks
+
+| # | Check | Look for |
+| :--- | :--- | :--- |
+| 1 | Boilerplate without tests | Transform/mapper functions with no unit tests |
+| 2 | Non-obvious logic | Code you can't summarise in one sentence — flag it and ask for a docstring |
+| 3 | Happy path only | Missing null checks, error states, boundary handling |
+| 4 | Hallucinated methods | Calls to methods that don't exist or wrong signatures |
+| 5 | Security vulnerabilities | Injection, hardcoded secrets, unsanitised input, sensitive data in logs |
+| 6 | Code duplication | Logic that already exists elsewhere in the codebase |
+| 7 | New dependencies | Unflagged imports — check for redundancy, maintenance status, licence |
+| 8 | Dead code | Declared but unused variables, imports, or parameters |
+| 9 | Inconsistent error handling | Mixed exception/return styles, silent swallows |
+| 10 | Timezone & locale assumptions | Implicit UTC, ASCII, or locale where explicit config is expected |
+
+## Output Format
+
+```
+## PR Review
+
+**Verdict**: ✅ Approve / 🟡 Request Changes / 🔴 Block
+**Findings**: X blocking, Y request-changes, Z suggestions
+
+### 🔴 Blocking
+- [file:line] finding — action required
+
+### 🟡 Request Changes
+- [file:line] finding — action required
+
+### 🟢 Suggestions
+- [file:line] finding
+```
+
+## Do Not Flag (Human Review Only)
+These require context beyond the diff — leave them for the human reviewer:
+- Whether the code fulfils the actual business requirement
+- Whether the approach fits the broader architecture
+- Whether the author genuinely understands what they submitted
+

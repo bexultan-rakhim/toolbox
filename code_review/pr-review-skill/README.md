@@ -52,6 +52,13 @@ Ten automated checks run against every diff:
 
 ## Install
 
+**Claude Code**
 ```
 .claude/skills/pr-review/SKILL.md
 ```
+
+**Cursor**
+```
+.cursor/rules/pr-review.mdc
+```
+Then ask Claude: *"review this diff"* or *"check my PR"* — the rule activates automatically.
