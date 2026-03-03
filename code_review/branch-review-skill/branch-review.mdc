@@ -1,6 +1,6 @@
 ---
-name: PR Review Checklist
-description: AI-augmented PR review checklist for AI-generated code. Activate when asked to review a PR, diff, or code changes.
+name: Branch Review Checklist
+description: AI-augmented branch review checklist for AI-generated code. Activate when asked to review a branch, diff, or code changes.
 globs:
   - "**/*.cpp"
   - "**/*.cc"
@@ -13,9 +13,9 @@ globs:
   - "**/*.go"
 ---
 
-# PR Review Checklist
-
-When asked to review a PR or diff, run through these checks and report findings with severity:
+# Branch Review Checklist
+When asked to review a branch or diff, run through these checks and report findings with severity:
+use `git diff origin/master...HEAD`
 - 🔴 **Block** — do not merge, must be fixed
 - 🟡 **Request Changes** — address before approval or explicitly defer
 - 🟢 **Suggestion** — nice to have, not required
@@ -38,7 +38,7 @@ When asked to review a PR or diff, run through these checks and report findings 
 ## Output Format
 
 ```
-## PR Review
+## branch Review
 
 **Verdict**: ✅ Approve / 🟡 Request Changes / 🔴 Block
 **Findings**: X blocking, Y request-changes, Z suggestions

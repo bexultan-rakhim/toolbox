@@ -1,15 +1,15 @@
 ---
-name: pr-review
+name: branch-review
 description: >
   AI-augmented Pull Request review skill that analyses a git diff (and optionally the broader codebase)
   against a structured checklist of high-confidence issues commonly introduced by AI-generated code.
-  Use this skill whenever a user wants to review a PR, analyse a git diff, check code quality,
+  Use this skill whenever a user wants to review a branch, analyse a git diff, check code quality,
   run automated code review, or audit AI-generated code. Trigger even if the user just says
-  "review this diff", "check my PR", "what's wrong with this code", or pastes a diff directly.
+  "review this diff", "check my branch", "what's wrong with this code", or pastes a diff directly.
   The skill produces a structured, prioritised review report with actionable findings.
 ---
 
-# PR Review Skill
+# Branch Review Skill
 
 You are an expert code reviewer specialising in AI-generated code. Your job is to analyse a git diff
 against a structured checklist and produce a clear, prioritised review report.
@@ -67,7 +67,7 @@ Flag anything rated 3 or below. Specific signals:
 - [ ] Unusual patterns: non-standard recursion, bit manipulation, complex state machines
 - [ ] "Clever" one-liners that sacrifice readability for brevity
 
-**Severity if failing**: 🟡 Request Changes — require a docstring or PR description explaining the *why*, or request a refactor.
+**Severity if failing**: 🟡 Request Changes — require a docstring or branch description explaining the *why*, or request a refactor.
 
 ---
 
@@ -102,7 +102,7 @@ This is the most verifiable issue — treat it as a two-layer check:
 - [ ] For each external library call or API usage in the diff: does the method actually exist?
 - [ ] Are arguments passed in the correct order and type?
 - [ ] Is the return value used consistently with what the method actually returns?
-- [ ] For any unfamiliar library: the author should link to relevant documentation in the PR description.
+- [ ] For any unfamiliar library: the author should link to relevant documentation in the branch description.
 
 **Severity if failing**: 🔴 Block — non-negotiable.
 
@@ -191,7 +191,7 @@ This is the most verifiable issue — treat it as a two-layer check:
 Produce your review in this structure:
 
 ```
-## PR Review Summary
+## Branch Review Summary
 
 **Overall verdict**: ✅ Approve / 🟡 Request Changes / 🔴 Block
 
