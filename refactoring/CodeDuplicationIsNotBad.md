@@ -11,7 +11,7 @@ Maybe you have seen or heard this dogma: **DRY** - don't repeat yourself. There 
 
 However, remember the mantra above - **WRONG abstractions are not cheap!**
 
-Let's just simple example here. Look a this simple class:
+Let's check one simple example here. Look a this simple class:
 
 ```python
 import requests
@@ -64,7 +64,7 @@ In fact, there was a bigger trap of such form - architecture build for reducing 
 ## How
 Question of the day: **How to avoid wrong abstractions?**
 
-Avoiding wrong abstractions is exercise of **restraint**. You have to learn to be pragmatic and [Duct Tape Programmer](https://www.joelonsoftware.com/2009/09/23/the-duct-tape-programmer/). Meaning, form should follow function, form over function. 
+Avoiding wrong abstractions is exercise of **restraint**. You have to learn to be pragmatic and [Duct Tape Programmer](https://www.joelonsoftware.com/2009/09/23/the-duct-tape-programmer/). Meaning, form should follow function, not form over function. 
 
 ### 1. There is so called rule of 3
 which serves as a rule of a thumb. This is the gold standard for avoiding premature abstraction.
