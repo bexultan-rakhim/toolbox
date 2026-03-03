@@ -1,10 +1,10 @@
-# AI-Augmented PR Review
+# AI-Augmented Branch Review
 
 ## What
 A Claude Code skill that analyses a git diff and produces a structured review report.
 
 ```bash
-git diff main...HEAD  # paste into Claude and ask it to review
+git diff origin/master...HEAD  # paste into Claude and ask it to review
 ```
 
 Output is findings sorted by severity:
@@ -61,4 +61,4 @@ Ten automated checks run against every diff:
 ```
 .cursor/rules/pr-review.mdc
 ```
-Then ask Claude: *"review this diff"* or *"check my PR"* — the rule activates automatically.
+Then ask Claude: *"review this diff"* or *"check my branch"* — the rule activates automatically.
