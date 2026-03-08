@@ -15,6 +15,14 @@ Why
 
 Defensive programming is often a mask for a lack of confidence in your system's invariants. It creates a "soft" failure mode that is significantly harder to debug than a "hard" crash.
 
+Here is why people write defensive programming: **It is a technical debt for failure strategies**. Listen, I know we have been there. We have to ship this program and there is one more branch from happy path, we don't want to think about too deeply. The main path logic is hard enough already. We often write defensive code because it is the path of least resistance. Designing a robust recovery or shutdown strategy takes time and architectural foresight, that maybe no one in your team has. Your system engineering team will be half-year or more late before they can give meaningful requirements for sensical failure strategy, while this code needs to be shipped and it needs to be shipped now. "Best is enemy of better", we say and implement logic for swallowing an error or providing a sentinel value to bypass that work, essentially saying, "it is not my problem anymore."
+
+Then, clueless junior dev sees this, and now it is the main strategy for error handling. It is the only error handling they have seen in the codebase. They come to another team and start proselytize these amazing error handling methods.
+
+But you know it, deep in your heart, that this is a tech debt. By opting for a "soft failure" now, you are offloading the cost of debugging a much more complex, non-deterministic failure onto your future self (or your on-call team that have no clue how this logic works). No one understands why this code there is some non-deterministic error that happens once in a half month under weirdest conditions ever now, and maybe no one will know.
+
+Still not convinced? Here is how defensive error handling produces these silent errors. 
+
 ### 1\. It Hides the Source of Infection
 
 When you add guards everywhere - returning `null`, swallowing exceptions, or providing silent default values - you allow corrupt state to propagate.
@@ -34,7 +42,7 @@ If the `sensor_id` is invalid, the robot gets `0.0`. It doesn't know why it got 
 
 ### 2\. It Creates False Confidence in Invariants
 
-In many languages, developers defensively check for null everywhere. In Rust, the type system eliminates the "null" problem, but the defensive mindset persists through over-using `unwrap_or_default()`.
+In many languages, developers defensively check for null everywhere like `if (sensor != null)`. In Rust, the type system eliminates the "null" problem, but the defensive mindset persists through over-using `unwrap_or_default()`.
 
 If a function requires a valid `User` to proceed, and you provide a "guest" default just to avoid a crash, you have essentially told the system that the identity of the user doesn't actually matter. A system designed around strong invariants trains developers to maintain them. If the system crashes (panics) when it encounters an impossible state, you are forced to fix the logic at the call site rather than papering over it.
 
