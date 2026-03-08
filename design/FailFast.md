@@ -1,5 +1,5 @@
-Fail Fast: Why Defensive Programming Is Brittle
-===============================================
+Fail Fast: Why Defensive Programming Is Unsafe
+==============================================
 
 What
 ----
