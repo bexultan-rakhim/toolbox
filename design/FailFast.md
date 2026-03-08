@@ -8,7 +8,7 @@ This is an article on why "defensive programming" - the practice of adding guard
 
 If you take anything from this article, let it be this: **Defensive programming makes programs less brittle, but it does not make them fail safe.**
 
-In automation and robotics, we are taught to be defensive. We check for nulls, we catch all exceptions, and we provide default values to "keep the loop running." But this is a misunderstanding of safety. Defensive programming doesn't prevent failure; t makes software less brittle by trading with "diagnosability". It allows a "poisoned" state to travel through your call stack like a ghost, only causing a wreck five modules downstream where the trail has gone cold.
+In automation and robotics, we are taught to be defensive. We check for nulls, we catch all exceptions, and we provide default values to "keep the loop running." But this is a misunderstanding of safety. Defensive programming doesn't prevent failure. It makes software less brittle by trading with "diagnosability". It allows a "poisoned" state to travel through your call stack like a ghost, only causing a wreck five modules downstream where the trail has gone cold.
 
 Why
 ---
@@ -19,7 +19,7 @@ Here is why people write defensive programming: **It is a technical debt for fai
 
 Then, clueless junior dev sees this, and now it is the main strategy for error handling. It is the only error handling they have seen in the codebase. They come to another team and start proselytize these amazing error handling methods.
 
-But you know it, deep in your heart, that this is a tech debt. By opting for a "soft failure" now, you are offloading the cost of debugging a much more complex, non-deterministic failure onto your future self (or your on-call team that have no clue how this logic works). No one understands why this code there is some non-deterministic error that happens once in a half month under weirdest conditions ever now, and maybe no one will know.
+But you know it, deep in your heart, that this is a tech debt. By opting for a "soft failure" now, you are offloading the cost of debugging a much more complex, non-deterministic failure onto your future self (or your on-call team that have no clue how this logic works). No one understands why there is some non-deterministic error that happens once in a half month under weirdest conditions ever now, and maybe no one will know.
 
 Still not convinced? Here is how defensive error handling produces these silent errors. 
 
@@ -72,7 +72,7 @@ Defensive code at module boundaries means each layer is compensating for the pot
 
 Fault-tolerant systems like Erlang/OTP are built on the "Let it Crash" philosophy. They separate doing work from handling failure. Defensive programming conflates these two. When business logic is littered with defensive checks, it becomes impossible to see the "happy path," and even harder to implement a clean, high-level recovery strategy (like a supervisor restart).
 
-### 6\. It affects Performance 
+### 6\. It Affects Performance 
 
 Every layer defensively re-validates the same inputs — null checks, bounds checks, type assertions, sanity checks on values. In a deep call stack, the same data might be validated a dozen times. Individually trivial, but in hot paths (tight loops, high-throughput request handling) this adds up to measurable overhead.
 
@@ -128,7 +128,7 @@ void main_loop() {
 
 ```
 
-**3\. Return Result types, not sentinels** $\rightarrow$ Avoid returning `0.0` or `-1` to signal failure. Use Rust's `Result` type to force the caller to acknowledge the possibility of failure at the call site.
+**3\. Return Result types, not sentinels** $\rightarrow$ Avoid returning `0.0` or `-1` to signal failure. Use Rust's `Result` type to force the caller to acknowledge the possibility of failure at the call site. FYI, this is not good for all languages, for example, you should prefer exceptions in Python still. 
 
 **4\. Define "Safe States" at the boundary** $\rightarrow$ Be defensive only at the "dirty" edges (e.g., parsing JSON or reading raw CAN bus packets). Convert raw data into validated types (Newtypes). Once data is in a `ValidatedReading` struct, the rest of the system can trust it without re-checking.
 
