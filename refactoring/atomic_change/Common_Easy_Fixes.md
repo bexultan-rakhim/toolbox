@@ -9,7 +9,7 @@ Here are some common, easy fixes you should apply whenever you spot them.
 
 "Magic numbers" are raw numbers or strings hardcoded directly into the logic. They force the reader to guess *why* that specific value is there. Replacing them with named constants (using `constexpr` or `const` in C++) gives the value immediate meaning.
 
-```
+```cpp
 // BEFORE (What is 9.81? What is 4?)
 double calculateDropTime(double height) {
     return std::sqrt((2 * height) / 9.81);
