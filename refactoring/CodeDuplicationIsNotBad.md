@@ -59,7 +59,7 @@ Think why the api has to be in this form for a second.
 This is the trap of incorrect abstractions. If you had kept the original duplication, you could be in a better place to evolve the code for users and books separately in much cohesive way. But now, you have complex two sided issue that has to be solved both on server and client side. 
 
 In fact, there was a bigger trap of such form - architecture build for reducing duplicates:
-* [Service Oriented Architecture] (https://en.wikipedia.org/wiki/Service-oriented_architecture) - check the wikipedia section on criticisms. It is a good read why we went from this bloatware to microservices.
+* [Service Oriented Architecture](https://en.wikipedia.org/wiki/Service-oriented_architecture) - check the wikipedia section on criticisms. It is a good read why we went from this bloatware to microservices.
 
 ## How
 Question of the day: **How to avoid wrong abstractions?**
