@@ -22,3 +22,5 @@ In a nutshell, learning atomic changes boils down to recognize patterns and appl
 Here are Atomic Changes by topic:
 1. [Booleans ](Booleans.md)
 2. [If Conditions](If_Conditions.md)
+3. [Functions](Functions.md)
+4. [Common Easy Fixes](Common_Easy_Fixes.md)
