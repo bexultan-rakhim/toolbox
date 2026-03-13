@@ -7,7 +7,7 @@ These patterns focus exclusively on simplifying `if/else` conditions. By restruc
 
 Deeply nested conditions are hard to read. By inverting the conditions and returning early, you can keep your main logic at the top level of the function.
 
-```
+```cpp
 // BEFORE (Deeply Nested)
 std::string uploadFile(const Request& req) {
     if (req.method == "POST") {
@@ -47,7 +47,7 @@ std::string uploadFile(const Request& req) {
 
 If an `if` block returns or breaks, you don't need an `else` block. This eliminates unnecessary state variables and indentation.
 
-```
+```cpp
 // BEFORE (Using a state variable)
 std::string getUserTier(int points) {
     std::string tier;
@@ -78,7 +78,7 @@ std::string getUserTier(int points) {
 
 Complex boolean expressions inside an `if` statement can be hard to parse mentally. Extracting them into well-named boolean variables makes the code self-documenting.
 
-```
+```cpp
 // BEFORE (What does this logic actually mean?)
 if ((order.total > 100 && user.isMember) || (order.hasPromo && !order.isDiscounted)) {
     applyFreeShipping(order);
@@ -98,7 +98,7 @@ if (isHighValueMember || isEligiblePromo) {
 
 If you have a sequence of nested `if` statements with no intermediate code between them, they can be consolidated into a single condition using the `&&` operator.
 
-```
+```cpp
 // BEFORE (Nested)
 if (user.isLoggedIn) {
     if (user.hasPermission) {
@@ -124,7 +124,7 @@ if (canReceiveAlert) {
 
 **Caution:** Be careful when there is intermediate code. You cannot safely consolidate if statements if code executes between them.
 
-```
+```cpp
 // CAUTION: Interstitial code prevents a simple merge
 if (user.isLoggedIn) {
     logAccessAttempt(); // <--- This prevents consolidating the if-statements
