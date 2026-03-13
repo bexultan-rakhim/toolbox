@@ -1,46 +1,75 @@
-# Simplifying Boolean Logic
-You must memorize these laws by heart. They will help you to simplify complex logic. The most important in this list is De Morgan's laws (8th law), as it can help you simplify really complex expressions.
+Simplifying Boolean Logic
+=========================
 
-```python
-# Assume 'a', 'b', and 'c' are boolean variables
-a = True
-b = False
-c = True
+You must memorize these laws by heart. They will help you to spot overly complex logic and reduce it to its simplest form. This is the essence of an atomic change: replacing a noisy expression with a shorter, mathematically equivalent one without altering the program's behavior.
 
-# 1. Identity Laws
-identity_and = (a and True) == a
-identity_or  = (a or False) == a
+The most important in this list are **De Morgan's laws** (8th law) and the **Absorption laws** (9th law), as they can help you drastically simplify deeply nested or confusing conditions.
 
-# 2. Null (Annulment) Laws
-null_and = (a and False) == False
-null_or  = (a or True) == True
+Here are the boolean laws in C++, demonstrating the "Complex" version you might find in legacy code, and the "Simplified" version you should refactor it into.
 
-# 3. Idempotent Laws
-idempotent_and = (a and a) == a
-idempotent_or  = (a or a) == a
+```Cpp
+bool isValid = true;
+bool isReady = false;
+bool isAdmin = true;
 
-# 4. Complement Laws
-complement_and = (a and not a) == False
-complement_or  = (a or not a) == True
+// 1. Identity Laws: Removing redundant constants
+// BEFORE                            // AFTER
+bool r1 = (isValid && true);         bool r1 = isValid;
+bool r2 = (isValid || false);        bool r2 = isValid;
 
-# 5. Double Negation
-double_negation = (not (not a)) == a
+// 2. Null (Annulment) Laws: Recognizing hardcoded outcomes
+// BEFORE                            // AFTER
+bool r3 = (isValid && false);        bool r3 = false;
+bool r4 = (isValid || true);         bool r4 = true;
 
-# 6. Commutative Laws
-commute_and = (a and b) == (b and a)
-commute_or  = (a or b) == (b or a)
+// 3. Idempotent Laws: Removing duplicated checks
+// BEFORE                            // AFTER
+bool r5 = (isValid && isValid);      bool r5 = isValid;
+bool r6 = (isValid || isValid);      bool r6 = isValid;
 
-# 7. Distributive Laws
-distribute_1 = (a and (b or c)) == ((a and b) or (a and c))
-distribute_2 = (a or (b and c)) == ((a or b) and (a or c))
+// 4. Complement Laws: Spotting impossible or guaranteed conditions
+// BEFORE                            // AFTER
+bool r7 = (isValid && !isValid);     bool r7 = false;
+bool r8 = (isValid || !isValid);     bool r8 = true;
 
-# 8. De Morgan's Laws
-de_morgan_1 = (not (a and b)) == (not a or not b)
-de_morgan_2 = (not (a or b)) == (not a and not b)
+// 5. Double Negation: Removing unnecessary mental gymnastics
+// BEFORE                            // AFTER
+bool r9 = !(!isValid);               bool r9 = isValid;
 
-# 9. Absorption Laws
-absorb_1 = (a or (a and b)) == a
-absorb_2 = (a and (a or b)) == a
+// 6. Commutative Laws: Reordering for readability
+// BEFORE                            // AFTER
+bool r10 = (isReady && isValid);     bool r10 = (isValid && isReady);
+
+// 7. Distributive Laws: "Factoring out" common variables
+// BEFORE
+bool canEdit = (isAdmin && isReady) || (isAdmin && isValid);
+// AFTER
+bool canEdit = isAdmin && (isReady || isValid);
+
+// 8. De Morgan's Laws: Untangling complex negations
+// Example A: Pushing negations inward
+// BEFORE
+bool isBlocked = !(isReady || isAdmin);
+// AFTER
+bool isBlocked = !isReady && !isAdmin;
+
+// Example B: Eliminating negative chains
+// BEFORE
+bool canProceed = !(!isValid || !isReady);
+// AFTER
+bool canProceed = isValid && isReady;
+
+// 9. Absorption Laws: Removing swallowed conditions
+// BEFORE
+bool r11 = isValid || (isValid && isReady);
+// AFTER
+bool r11 = isValid;
+
+// BEFORE
+bool r12 = isValid && (isValid || isReady);
+// AFTER
+bool r12 = isValid;
+
 ```
 
 Easy, right?
