@@ -19,6 +19,13 @@ Strategy pattern is uniquely useful pattern. It often saves you from implementin
 
 -   **Domain-driven Design**: Strategies can be named after actual business rules (e.g., `StandardShipping`, `ExpressOvernight`), making the code a direct map of the domain requirements.
 
+Here is how you can use it. Imagine you are writing  a path planning and kinematics algorithms. A robot might need to switch between different navigation algorithms based on the environment. 
+-   **The Strategy:** `PathPlanner` variant.
+
+-   **Implementations:** `AStarPlanner`, `RRTStarPlanner`, or `DijkstraPlanner`.
+
+-   **Benefit:** Since planners are usually a finite set of known algorithms, `std::variant` provides high performance (no heap allocation) while allowing the robot to switch to a "Recovery" planner if it gets stuck.
+
 ### Implementation Trade-offs
 There are few implementation of this pattern. I want to demonstrate 4 different implementations and analyze their trade-offs. Here is the summary table for these patterns. In the next section you can find implementations for each.
 
