@@ -4,6 +4,8 @@ C++ Strategy Pattern: Implementation & Versatility
 What
 ----
 
+This is a pattern I use quite a lot, and have found several ways to implement it. The benefits of this pattern and its different implementations provide some of the most versatile feature if you design ahead of things. As name suggests, strategy pattern gives you "strategic" advantage (pun intended) when you are designing software for evolution. 
+
 The **Strategy Pattern** is a behavioral design pattern that decouples a specific algorithm or logic from the object that uses it. Instead of an object containing a massive, hard-coded decision tree, it delegates the work to a separate "strategy" component. This transforms a monolithic piece of code into a modular system where behaviors are interchangeable parts.
 
 Why
