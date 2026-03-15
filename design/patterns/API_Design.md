@@ -14,6 +14,8 @@ In C++ and Rust, this involves:
 
 - **Predictable Error Handling:** Ensuring errors are "in-band" and impossible to ignore.
 
+This writeup is inspired by following video: [Back to Basics: C++ API Design - Jason Turner - CppCon 2022](https://www.youtube.com/watch?v=zL-vn_pGGgY)
+
 Why
 ---
 
