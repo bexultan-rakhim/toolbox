@@ -106,7 +106,6 @@ struct SecureStrategy {
 
 using Strategy = std::variant<FastStrategy, SecureStrategy>;
 
-template
 class Context {
   Strategy strategy_;
 public:
