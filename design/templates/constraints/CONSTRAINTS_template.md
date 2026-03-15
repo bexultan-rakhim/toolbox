@@ -1,6 +1,6 @@
 CONSTRAINTS for: [service-name]
-Last updated: [YYYY-MM-DD]
-Owned by: [team-name]
+- **Last updated:** [YYYY-MM-DD]
+- **Owned by:** [team-name]
 
 ---
 

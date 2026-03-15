@@ -1,6 +1,6 @@
 CONSTRAINTS for: motor-controller-service
-Last updated: 2025-11-01
-Owned by: robotics-platform-team
+- **Last updated:** 2025-11-01
+- **Owned by:** robotics-platform-team
 
 ---
 
