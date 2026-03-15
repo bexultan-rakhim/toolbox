@@ -30,9 +30,13 @@ Here is how you can use it. Imagine you are writing  a path planning and kinemat
 There are few implementation of this pattern. I want to demonstrate 4 different implementations and analyze their trade-offs. Here is the summary table for these patterns. In the next section you can find implementations for each.
 
 | Implementation Type | Complexity | Runtime Cost | Flexibility | Best Use Case |
+
 | **Classic (Virtual)** | Medium | V-Table lookup | High (Dynamic) | Plugin systems, GUI event handling. |
+
 | **Template (Mixin)** | High | Zero | Low (Static) | High-performance math or driver code. |
+
 | **Functional** | Low | Small (Type erasure) | Very High | Quick callbacks, local lambda logic. |
+
 | **Policy (Enum)** | Medium | Zero | Medium (Static) | Multi-platform builds, debug vs release. |
 
 How
