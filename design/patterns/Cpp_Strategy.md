@@ -19,6 +19,8 @@ Strategy pattern is uniquely useful pattern. It often saves you from implementin
 
 -   **Domain-driven Design**: Strategies can be named after actual business rules (e.g., `StandardShipping`, `ExpressOvernight`), making the code a direct map of the domain requirements.
 
+### Usage Example
+
 Here is how you can use it. Imagine you are writing  a path planning and kinematics algorithms. A robot might need to switch between different navigation algorithms based on the environment. 
 -   **The Strategy:** `PathPlanner` variant.
 
