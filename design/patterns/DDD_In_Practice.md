@@ -112,6 +112,7 @@ static void track_update(Track_t * const p_track,
             p_track->vy = (p_meas->y - p_track->y) / dt_s;
         } else {
             /* else: velocity unchanged — stale dt is a known sensor condition  */
+            ;
         }
 
         p_track->x = p_meas->x;
