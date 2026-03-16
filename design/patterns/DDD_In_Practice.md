@@ -136,7 +136,7 @@ static void tracker_retire_stale(uint64_t now_ms)
     {
         if (s_tracks[i].active == true)
         {
-            /* Subtraction safe: now_ms >= last_seen_ms by system invariant.   */
+            /* Subtraction safe: now_ms >= last_seen_ms by system invariant.    */
             /* If clock wraps, age is large and track retires — acceptable      */
             uint64_t age_ms = now_ms - s_tracks[i].last_seen_ms;
 
