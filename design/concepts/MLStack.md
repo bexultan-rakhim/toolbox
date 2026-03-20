@@ -118,6 +118,8 @@ command_actuators(action)
 ```
  
 Reliability can also be argued probabilistically. Ablation studies — systematically degrading inputs or perturbing conditions and observing how behavior changes — provide a form of behavioral characterization even without interpretability. You cannot audit a single decision, but you can build a statistical profile of how the model behaves across a distribution of conditions, including reconstructed versions of failure scenarios. This is not the same as deterministic certification, but it is not nothing either.
+
+No practical system is truly end-to-end. Reason is that you still need to put safety checks at the output of the model. It can be even a redundant system that is more conservative, for example and safety case is made that if model output disagrees with redundant system, then be at alarm.
  
 The honest tradeoff is this: end-to-end models trade auditability and certifiability for expressiveness and information preservation. That tradeoff may be acceptable in contexts where statistical performance across a wide distribution is the primary requirement and formal certification is not. It is not acceptable where a regulator requires a traceable safety argument, or where a failure investigation needs to isolate cause.
  
