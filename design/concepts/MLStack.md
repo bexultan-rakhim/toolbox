@@ -1,10 +1,10 @@
-Rules Fail at the Boundary. Models Fail in the Dark.
-=====================================================
+Deep Stack: Application of ML Models in Robotics System Architecture
+====================================================================
 What
 ----
 This is an article about how to think about ML and rule-based components in robotics software architecture. It is not an argument for one over the other. It is an argument that the choice is a tradeoff with precise consequences — and that conflating "learns from data" with "is better" is one of the more dangerous ideas currently circulating in robotics engineering.
 
-The central claim: **ML does not reduce failure. It changes where failure hides.**
+The central claim: **Rules Fail at the Boundary. Models Fail in the Dark.**
 
 A rule-based system fails loudly at known boundaries. A learned model fails quietly at unknown ones. Neither is safe. They are different failure modes, and choosing between them — or combining them — is an architectural decision with safety implications, not a philosophical stance on the future of AI.
 
@@ -42,17 +42,19 @@ Models are also better at handling graceful degradation across a continuous spec
 
 End-to-end proponents sometimes invoke biological intelligence as justification: the human brain is a unified learned model with no interpretability layer, and it navigates the world successfully. Why should a robot be different?
 
-The analogy is instructive but breaks in one critical place. The brain is the survivor of a validation process running for hundreds of millions of years, paid for in the lives of every organism whose model was not good enough. Natural selection has no moral standing — physics does not care about failure. It runs the experiment, deletes the failures, and keeps the survivors. Think about all the organisms sacrificed in order to get you to be here.
+The analogy is instructive but breaks in one critical place. The brain is the survivor of a validation process running for hundreds of millions of years, paid for in the lives of every organism whose model was not good enough. Natural selection has no moral standing — physics does not care about failure. It runs the experiment, deletes the failures, and keeps the survivors.
 
-We do not have that budget, and we do not have that indifference and we cannot afford such failure. When a robotics system fails in a public environment, the cost is not paid by natural selection — it is paid by a specific person who did not consent to be part of the optimization process experiment. The brain does not need to be debuggable because its certification regime was mortality at civilizational scale. That is not a certification regime we can replicate or accept.
+We do not have that budget, and we do not have that indifference. When a robotics system fails in a public environment, the cost is not paid by natural selection — it is paid by a specific person who did not consent to be part of the optimization process. The brain does not need to be debuggable because its certification regime was mortality at civilizational scale. That is not a certification regime we can replicate or accept.
 
-This is not an argument against learning. It is an argument that the brain's architecture cannot be justified by appealing to its success alone, because its success was purchased at a too high price that engineering ethics cannot pay.
+This is not an argument against learning. It is an argument that the brain's architecture cannot be justified by appealing to its success alone, because its success was purchased at a price that engineering ethics cannot pay.
 
 How
 ---
 ### Three Architectures
 
 Robotics systems generally fall into three architectural patterns for combining rules and learned components. Each has a distinct relationship with the rule-vs-model tradeoff.
+
+A note before going further: no real production system is purely one of these. Every deployed robotics system is a combination — learned models wrapped in rule-based safety layers, classical planners consuming ML-produced world representations, end-to-end policies with hard-coded override logic on top. These are archetypes for thinking about tradeoffs, not a taxonomy of things that exist in the wild.
 
 #### 1. Modular Architecture with ML Components
 
@@ -74,7 +76,7 @@ fn validate_predicted_trajectory(traj: &Trajectory) -> Result<(), SafetyViolatio
 
 The rule-based boundary checks are the system's immune system. They do not need to understand how the model works. They enforce the contract that any output, regardless of how it was produced, must satisfy before it is acted upon.
 
-**Where it fails:** The boundary checks must be specified in advance. If the model produces an output that is wrong in a way the boundary check does not anticipate — plausible velocity, plausible clearance, subtly incorrect object classification — the error passes through unchallenged.
+**Where it fails:** The boundary checks must be specified in advance. If the model produces an output that is wrong in a way the boundary check does not anticipate — plausible velocity, plausible clearance, subtly incorrect object classification — the error passes through unchallenged. And rules are not immune to bugs. A rule that was written incorrectly, or that does not cover a case the engineer did not anticipate, fails just as silently as a model. The difference is that rule failures are easier to find and reason about after the fact — not that they do not exist.
 
 #### 2. Two-Stage Architecture
 
@@ -106,7 +108,7 @@ Trajectory plan(const WorldModel& world, const Goal& goal) {
 
 A single learned model — or a tightly coupled set of learned models — takes raw sensor input and outputs behavior directly, with no explicit intermediate representation. The model learns whatever internal structure is useful; the engineer does not specify it.
 
-The argument for this architecture is that the modular pipeline loses information at every interface. A perception module that outputs bounding boxes has already discarded raw sensor information that might have been relevant to planning. An end-to-end model can in principle preserve and use everything.
+The argument for this architecture is genuine and should not be dismissed. The modular pipeline loses information at every interface — a perception module that outputs bounding boxes has already discarded raw sensor data that might have been relevant to planning. An end-to-end model preserves that information and jointly optimizes across what modular systems solve sequentially. In practice, well-trained end-to-end models have demonstrated behavior that is probabilistically reliable across a wide range of conditions — not deterministically guaranteed, but statistically compelling in ways that matter.
 
 ```python
 # End-to-end: raw sensor input → behavior output
@@ -115,9 +117,13 @@ action = policy_network(camera_frames, lidar_points, ego_state)
 command_actuators(action)
 ```
 
-There is no rule between the sensor and the actuator. There is no contract to inspect, no intermediate state to audit, no failure boundary to characterize. When it works, it works elegantly. When it fails, you have a bad actuator command and nothing between the input and the output to examine.
+Reliability can also be argued probabilistically. Ablation studies — systematically degrading inputs or perturbing conditions and observing how behavior changes — provide a form of behavioral characterization even without interpretability. You cannot audit a single decision, but you can build a statistical profile of how the model behaves across a distribution of conditions, including reconstructed versions of failure scenarios. This is not the same as deterministic certification, but it is not nothing either.
 
-**Where it fails:** Everywhere you did not train for, invisibly. The model has learned a compressed representation of the world that is not accessible to the engineer. You cannot ask it why it made a decision. You cannot write a test that covers a specific failure mode you are worried about. You cannot certify it against a formal specification because there is no formal specification — there is a loss function and a dataset.
+The honest tradeoff is this: end-to-end models trade auditability and certifiability for expressiveness and information preservation. That tradeoff may be acceptable in contexts where statistical performance across a wide distribution is the primary requirement and formal certification is not. It is not acceptable where a regulator requires a traceable safety argument, or where a failure investigation needs to isolate cause.
+
+No practical system is truly end-to-end. Reason is that you still need to put safety checks at the output of the model. It can be even a redundant system that is more conservative, for example and safety case is made that if model output disagrees with redundant system, then be at alarm.
+
+**Where it fails:** In conditions underrepresented in training, without warning. The model has no mechanism to signal that it is operating outside its reliable envelope. A rule-based system that encounters an unhandled case produces a visible error. An end-to-end model produces a confident output. Whether that output is correct is a function of training coverage, not of anything the model communicates at inference time.
 
 ### On Attempting to Fix Structural Properties
 
@@ -127,22 +133,41 @@ It is not. Attempting to fix a structural shortcoming is not the same as not hav
 
 A saliency map tells you which input regions the model weighted most heavily for a given decision. It does not tell you whether that reasoning was correct. It does not tell you whether the model will make the same decision under slightly different sensor noise. It does not tell you whether the behavior generalizes beyond the conditions you happened to test. It is a partial, post-hoc, single-decision window into a system that produced thousands of decisions before you looked and will produce thousands more before you look again.
 
-Imagine you are competing in Olympics: a competitor who attempts the jump and does not clear the bar has not cleared the bar. Announcing that you are working hard on clearing it, that you have a research team studying the jump, that your attempts are getting closer — none of this changes the result. The bar is either cleared or it is not. Observability is either a designed property of the architecture or it is not. An unobservable system with an active interpretability research program attached to it is still an unobservable system.
+Imagine participating in Olympics with System you built as an athlete: a competitor who attempts the jump and does not clear the bar has not cleared the bar. Announcing that you are working hard on clearing it, that you have a research team studying the jump, that your attempts are getting closer — none of this changes the result. The bar is either cleared or it is not. Observability is either a designed property of the architecture or it is not. An unobservable system with an active interpretability research program attached to it is still an unobservable system.
 
 The honest position is to treat current interpretability tooling as what it is: research that may eventually change the calculus, not a present-day substitute for architectural observability. If your safety argument depends on "we are working on making this interpretable," your safety argument is not complete.
+
+### Cost Profile
+
+Implementation cost is one of the most misunderstood dimensions of this decision. End-to-end architectures look cheap at the start and become expensive in ways that are hard to budget for. Modular architectures look expensive at the start and become cheaper to maintain over time. Neither is free — the cost is just distributed differently across the project lifecycle.
+
+**Initial implementation cost.** A modular architecture requires significant upfront investment in interface design. Before writing a line of ML code, you need to define what perception hands to prediction, what prediction hands to planning, and what contracts those interfaces enforce. This is hard, slow work that does not produce visible features. End-to-end architectures sidestep this entirely — the interface is implicit, learned by the model, and the engineer never has to specify it. This makes end-to-end look dramatically cheaper at project kickoff. It is a deferral, not a saving.
+
+**Data cost.** End-to-end models are data-hungry in ways that are easy to underestimate at the start. Because the model must jointly learn perception, prediction, and behavior from raw sensor input, it requires coverage across the full combination of conditions — not just each condition independently. Edge cases that a modular system could handle by fixing one component require full end-to-end retraining with new data covering that case. Modular architectures allow targeted dataset collection: if perception degrades in rain, you collect rain data and retrain the perception module. The scope of data collection is bounded by the module boundary.
+
+**Maintenance cost.** In a modular architecture, components can be updated, replaced, or retrained independently. Improving the prediction model does not require touching the planner. Fixing a boundary check does not require retraining anything. In an end-to-end architecture, the model is monolithic — changing behavior in one aspect of the task requires retraining the whole model, with the risk of degrading performance on aspects you were not trying to change. This is the catastrophic forgetting problem, and it makes maintenance of end-to-end systems significantly more expensive over time than initial development suggests.
+
+**Failure investigation cost.** This is the cost that end-to-end architectures defer most aggressively and that modular architectures pay upfront through interface discipline. When a modular system fails, you have a structured search space: which module produced the bad output, which boundary check did not catch it, which invariant was violated. When an end-to-end system fails, you have a bad output and an opaque model. Reproducing the failure requires reconstructing the exact input conditions. Ablation testing can characterize behavior statistically, but isolating the cause of a specific failure is expensive and often inconclusive. In safety-critical systems, failure investigation is not optional — it is how you determine whether the system is safe to redeploy. The cost of this investigation should be in your budget from day one.
+
+**Certification cost.** Modular architectures have a known certification path under standards like ISO 26262 — expensive, but bounded and well-understood. You certify components against specifications, verify interfaces, and build a safety case from the parts. End-to-end architectures currently have no established certification path. The cost is not just high — it is unbounded, because the methodology does not yet exist. Organizations pursuing end-to-end architectures in safety-critical domains are implicitly betting that a certification path will be established before they need one. That is a program risk, not just a technical one.
 
 ### Tradeoff Table
 
 | Dimension | Modular + ML components | Two-stage | End-to-end |
 |---|---|---|---|
-| **Failure visibility** | High — boundary checks catch violations | Medium — seam failures are silent | Low — no intermediate state to inspect |
-| **Debuggability** | High — isolate by module | Medium — isolate by stage | Very low — black box |
-| **Certification path** | Feasible — verify modules independently | Partial — stage 2 verifiable, stage 1 statistical | No credible path currently |
-| **Handling complexity** | Medium — rules cannot cover all edge cases | Medium — same limitation at stage 2 | High — generalizes across edge cases |
-| **Information preservation** | Medium — interfaces are lossy | Low — most information lost at stage 1 output | High — no forced intermediate representation |
-| **Safety constraint enforcement** | Strong — explicit rules at boundaries | Weak at seam, strong in stage 2 | None explicit |
-| **Development cost** | High — interface design is expensive | Medium | Low initially, very high at failure investigation |
-| **Suitable for safety certification** | Yes | Partially | Not currently |
+| **Failure visibility** | High — boundary checks catch known violations | Medium — seam failures are silent | Low — no intermediate state to inspect |
+| **Debuggability** | High — isolate by module | Medium — isolate by stage | Low — ablation studies provide partial behavioral characterization |
+| **Rule correctness** | Rules can be wrong too — but failures are traceable | Same — stage 2 rules are auditable, stage 1 is not | N/A — no explicit rules |
+| **Certification path** | Feasible — verify modules independently | Partial — stage 2 verifiable, stage 1 statistical | No deterministic path; probabilistic arguments possible |
+| **Handling complexity** | Medium — rules cannot cover all edge cases | Medium — same limitation at stage 2 | High — jointly optimizes across full input space |
+| **Information preservation** | Medium — interfaces are lossy by design | Low — significant information lost at stage 1 output | High — no forced intermediate representation |
+| **Statistical reliability** | Depends on ML component quality | Depends on world model quality | Can be high with sufficient training coverage |
+| **Safety constraint enforcement** | Strong — explicit rules at boundaries | Weak at seam, strong in stage 2 | None explicit — requires external safety layer |
+| **Initial implementation cost** | High — interface design is expensive upfront | Medium | Low — deceptively cheap to start |
+| **Data cost** | Targeted — retrain affected module only | Medium — stage 1 data-hungry, stage 2 bounded | High — full condition coverage required; edge cases are expensive |
+| **Maintenance cost** | Low — components updated independently | Medium — stage 1 retraining affects stage 2 inputs | High — monolithic retraining risk; catastrophic forgetting |
+| **Failure investigation cost** | Low — structured search space | Medium — seam failures harder to isolate | Very high — opaque model, expensive to reproduce and isolate |
+| **Certification cost** | High but bounded — established methodology exists | Partial — stage 2 bounded, stage 1 open | Unbounded — no established methodology currently |
 
 ### Choosing the Right Mix
 
@@ -171,6 +196,8 @@ actuators.command(command);
 ```
 
 Each `?` is a hard stop. If a rule fires, execution does not continue. The ML components handle complexity. The rule-based components hold the contracts. Neither pretends to do the other's job.
+
+We are seeing this happen in coding agents with tool use: they can validate their output by compiling code and reading the compiler errors.
 
 ---
 Rules fail at the boundary. Models fail in the dark. A good architecture knows which failure it can afford.
