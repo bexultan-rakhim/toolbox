@@ -10,6 +10,9 @@ If you take anything from this article, let it be this: **Defensive programming 
 
 In automation and robotics, we are taught to be defensive. We check for nulls, we catch all exceptions, and we provide default values to "keep the loop running." But this is a misunderstanding of safety. Defensive programming doesn't prevent failure. It makes software less brittle by trading with "diagnosability". It allows a "poisoned" state to travel through your call stack like a ghost, only causing a wreck five modules downstream where the trail has gone cold.
 
+> [!NOTE]
+> A bit of trivia: Defensive Programming has traces all the way back to NASA's Apollo project and Margaret Hamilton.
+
 Why
 ---
 
