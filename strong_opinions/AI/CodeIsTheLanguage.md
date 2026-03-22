@@ -69,27 +69,35 @@ I find this immediately identifiable as AI-generated. The docstring is the first
 A competent engineer writing this for actual use would write something closer to:
 
 ```python
-def quicksort(items: list) -> list:
+def _partition(items: list, low: int, high: int) -> int:
+    pivot = items[high]
+    i = low - 1
+
+    for j in range(low, high):
+        if items[j] <= pivot:
+            i += 1
+            items[i], items[j] = items[j], items[i]
+
+    items[i + 1], items[high] = items[high], items[i + 1]
+    return i + 1
+
+
+def quicksort(items: list, low: int = 0, high: int = -1) -> None:
     if not isinstance(items, list):
         raise TypeError(f"Expected list, got {type(items).__name__}")
     if len(items) <= 1:
-        return items[:]
+        return
 
-    pivot = items[len(items) // 2]
-    less, equal, greater = [], [], []
+    if high == -1:
+        high = len(items) - 1
 
-    for item in items:
-        if item < pivot:
-            less.append(item)
-        elif item == pivot:
-            equal.append(item)
-        else:
-            greater.append(item)
-
-    return quicksort(less) + equal + quicksort(greater)
+    if low < high:
+        p = _partition(items, low, high)
+        quicksort(items, low, p - 1)
+        quicksort(items, p + 1, high)
 ```
 
-No docstring. Explicit type guard up front. One pass through the list. Returns a copy rather than the original reference — a memory assumption baked into the function's contract rather than left implicit. But even this version reads as too uniform, too evenly finished across every line. Human code is meticulous where the problem demanded it and blunt where it did not. It carries the texture of the specific decisions made to solve the specific problem. What I see in LLM-generated code is a consistent surface polish applied everywhere regardless of what the problem actually required — and I think that uniformity comes directly from training on code written to be read and explained, tutorials and documentation and public repositories, rather than code written under real constraints to solve hard specific problems. Polished look is also a contract on how well you understandor care about particular part of the problem. Remember, training to write code is a process of becoming a native speaker in the domain of computers, LLM's speaking plain English is an invitation of machines to the human spaces. 
+No docstring. Explicit type guard up front. In place sorting. But even this version reads as too uniform, too evenly finished across every line. Human code is meticulous where the problem demanded it and blunt where it did not. It carries the texture of the specific decisions made to solve the specific problem. What I see in LLM-generated code is a consistent surface polish applied everywhere regardless of what the problem actually required — and I think that uniformity comes directly from training on code written to be read and explained, tutorials and documentation and public repositories, rather than code written under real constraints to solve hard specific problems. Polished look is also a contract on how well you understandor care about particular part of the problem. Remember, training to write code is a process of becoming a native speaker in the domain of computers, LLM's speaking plain English is an invitation of machines to the human spaces. 
 
 *Like most articles written today, this one was developed with the help of an LLM — specifically to refine grammar and sharpen how the argument is expressed in plain English. That is, I think, exactly the kind of task language models are genuinely good at. The argument is mine. The polish is collaborative.*
 
