@@ -1,14 +1,16 @@
-# The Mirror Problem: Why LLMs Look More Intelligent Than They Are
+The Mirror Problem: Why LLMs Look More Intelligent Than They Are
+================================================================
 
-## Opinion
+Opinion
+-------
 
 Ask a monkey to use an LLM and you will get outputs as intelligent as a monkey. That is not a joke about monkeys. It is a precise observation about where the intelligence in the human-LLM interaction actually comes from. When a skilled engineer gets a remarkable output from a language model, the instinct is to attribute the remarkableness to the model. I think that attribution is wrong, and I think the reason most people cannot see that it is wrong is that they are unfamiliar with embodied cognitive science — a field that has spent decades carefully studying what intelligence actually is, where it lives, and how it emerges. If that research were better known, I believe the current excitement around LLMs would look considerably different.
 
 My claim is not that LLMs are useless or that interacting with them produces nothing of value. I think they are genuinely remarkable tools and a novel form of cognitive extension — more participatory than anything we have built before. My claim is more specific: LLMs are mirrors. They reflect human intelligence back in a form that feels generative, and the feedback loop between a capable human and a language model is so fluent and so fast that it becomes very difficult to see which side of the loop the intelligence is actually coming from. I think we are systematically misattributing it, and I think that misattribution is costing us — in bad claims, bad investment decisions, and a failure to seriously pursue research directions that would get us much further.
 
----
 
-## Rationale
+Rationale
+---------
 
 I think this argument rests on three claims that I believe deserve equal weight.
 
@@ -36,9 +38,9 @@ What LLMs specifically lack — and what embodied cognitive science identifies a
 
 I am not claiming that embodied AI has solved the problems LLMs have not. It has not, and the challenges are significant. What I am claiming is that the research foundations exist, the scientific case is serious, and the investment and attention it receives is not commensurate with that seriousness. The current concentration of resources on LLMs is not just a market preference — it is actively shaping what gets funded, what gets staffed, and what gets treated as the legitimate frontier of the field. I think that concentration is making it harder to reach the point of disillusionment that would redirect attention toward approaches with stronger scientific grounding. The mirror is too flattering. It keeps reflecting back something that looks like progress.
 
----
 
-## Updates
+Updates
+-------
 
 *Nothing yet.*
 
