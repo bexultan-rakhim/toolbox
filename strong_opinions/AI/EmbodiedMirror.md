@@ -51,7 +51,7 @@ Updates
 
 **References**
 
-. Leffer, L. (2025). AI Coding Tools May Be Hurting Beginners' Learning. *Scientific American.* — Anthropic RCT: developers delegating code generation to AI scored below 40% on comprehension tests vs 65%+ for those using AI for conceptual questions only.
+1. Leffer, L. (2025). AI Coding Tools May Be Hurting Beginners' Learning. *Scientific American.* — Anthropic RCT: developers delegating code generation to AI scored below 40% on comprehension tests vs 65%+ for those using AI for conceptual questions only.
 2. Aalto University (2024). AI Literacy and Overconfidence: A Reversal of the Dunning-Kruger Effect. Cited in: Heikkilä, M. (2024). *MIT Technology Review.* https://www.technologyreview.com
 3. Sun, F., Li, N. et al. (2025). *Large Language Models are Overconfident and Amplify Human Bias.* https://arxiv.org/abs/2505.02151
 4. Merleau-Ponty, M. (1945). *Phenomenology of Perception.* Routledge.
