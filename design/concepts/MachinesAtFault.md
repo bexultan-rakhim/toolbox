@@ -12,7 +12,9 @@ Don Norman dismantles this in *The Design of Everyday Things*. His argument: if 
 
 Norman calls this **system-induced error**. We usually call it user error. We are usually mistaken.
 
-**There is no such thing as true user error**
+**Do not design for people the way you would like them to be, design the way they really are**
+
+And people are illogical, fallible, imperfect, emotional and biased. And this is not a problem. Never was.
 
 Why
 ---
