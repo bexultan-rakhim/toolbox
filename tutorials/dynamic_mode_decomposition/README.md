@@ -205,7 +205,7 @@ Both errors compound. The first is fundamental to finite dictionaries; the secon
 The choice of dictionary is the single most important design decision in EDMD. Different dictionaries fail in different ways and excel for different system classes.
 
 ### 4.1 Polynomial Dictionaries
-Main intuition behind polynomial dictionaries is that any function can be written as a infinite Tailor series sum. For example, Hambel basis can serve as a basis for all polynomial functions with single variables exactly and approximate any continuous function with arbitrary accuracy. Although, polynomials can not serve as exact basis for all functions. So, if you are intersted to have a model that is quite good at some local areas, this is great choice, although it has few downsides.
+Main intuition behind polynomial dictionaries is that any function can be written as a infinite Tailor series sum. For example, Hambel basis can serve as a basis for all polynomial functions with single variables exactly and approximate any continuous function with arbitrary accuracy in some local regions. Although, polynomials can not serve as exact basis for all functions. So, if you are intersted to have a model that is quite good at some local areas, this is great choice, although it has few downsides.
 
 #### 4.1.1 Monomial Basis
 
