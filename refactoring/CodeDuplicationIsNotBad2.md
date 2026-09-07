@@ -6,7 +6,7 @@ If you took away one thing from our [previous discussion](dry_abstraction.md), i
 
 **Duplication is FAR cheaper than the tight coupling of unrelated domains.**
 
-Today's topic is about what happens when we let the shape of our code blind us to the actual *meaning* of our code. We are talking about **coincidental duplication**.
+Today's topic is about what happens when we let the shape of our code blind us to the actual *meaning* of our code. We are talking about **coincidental coupling**.
 
 Why
 ---
